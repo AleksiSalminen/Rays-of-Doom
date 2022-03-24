@@ -94,17 +94,19 @@ module.exports = {
     const level = LEVELS[0];
 
     const pistol = config.weapons.firearms[0];
-    const weapons = [
-      new Firearm(
-        pistol.name, pistol.fpsImg, pistol.damage,
-        pistol.cooldown, pistol.cooldownTimer, pistol.clipSize,
-        pistol.ammo, pistol.clipAmmo, pistol.bulletSpeed,
-        pistol.reloadCoolDown, pistol.reloadCoolDownTimer
-      )
-    ];
+    let weapons;
 
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
+      weapons = [
+        new Firearm(
+          pistol.name, pistol.fpsImg, pistol.damage,
+          pistol.cooldown, pistol.cooldownTimer, pistol.clipSize,
+          pistol.ammo, pistol.clipAmmo, pistol.bulletSpeed,
+          pistol.reloadCoolDown, pistol.reloadCoolDownTimer
+        )
+      ];
+      
       stateCurrent.players[i] = new Player(
         stateCurrent.players[i].client,
         stateCurrent.players[i].name,
@@ -257,7 +259,7 @@ module.exports = {
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let player = stateCurrent.players[i];
-      if (player.getNumber() === params.number) {
+      if (player.number === params.number) {
         const weapon = player.currentWeapon;
         if (weapon.clipAmmo > 0 && weapon.cooldownTimer === weapon.cooldown) {
           console.log("POW!");
