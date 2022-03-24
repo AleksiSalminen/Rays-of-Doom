@@ -24,9 +24,12 @@
                 "name": "Shock Pistol",
                 "fpsImg": "", 
                 "damage": 10, 
-                "cooldown": 1, 
+                "cooldown": 0.5, 
+                "cooldownTimer": 0.5,  
                 "clipSize": 10,
-                "ammo": 80
+                "ammo": 80,
+                "clipAmmo": 10,
+                "bulletSpeed": 1
             }
         ]
     },

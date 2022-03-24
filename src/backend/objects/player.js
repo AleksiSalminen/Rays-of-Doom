@@ -1,16 +1,17 @@
 
-const Character = require("./character"); 
-const Firearm = require("./firearm");
+const Character = require("./character");
 
 
 class Player extends Character {
-    constructor (client, name, number, maxHP, hp, walkSpd, turnSpd, position, height, width, weapons) {
+    constructor (client, name, number, maxHP, hp, walkSpd, turnSpd, position, height, width, weapons, currentWeapon, bullets) {
         super(name, maxHP, hp, walkSpd, position, height, width);
         this.client = client;
         this.number = number;
         this.turnSpd = turnSpd;
         this.weaponImg = "knife_hand.png";
         this.weapons = weapons;
+        this.currentWeapon = currentWeapon;
+        this.bullets = bullets;
     }
 
     /** Getters */
