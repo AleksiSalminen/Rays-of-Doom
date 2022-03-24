@@ -1,0 +1,48 @@
+{
+    "name": "Test Level 2",
+    "light": 0,
+    "skybox": {
+        "fileName": "deathvalley_panorama.jpg",
+        "width": 2000,
+        "height": 750
+    },
+    "playerSpawn": {
+        "x": 2,
+        "y": 2
+    },
+    "wallTextures": [
+        {
+            "id": 1,
+            "fileName": "wall_texture.jpg",
+            "width": 1024,
+            "height": 1024
+        },
+        {
+            "id": 2,
+            "fileName": "wall_texture2.jpg",
+            "width": 1024,
+            "height": 1024
+        },
+        {
+            "id": 3,
+            "fileName": "wall_texture3.jpg",
+            "width": 1024,
+            "height": 1024
+        }
+    ],
+    "dimensions": {
+        "width": 5,
+        "height": 9
+    },
+    "walls": [
+ 1, 1, 1, 1, 1,
+ 1, 0, 1, 0, 1,
+ 1, 0, 0, 0, 1,
+ 1, 0, 0, 0, 1,
+ 1, 1, 1, 0, 1,
+ 1, 0, 1, 0, 1,
+ 1, 0, 1, 0, 1,
+ 1, 0, 0, 0, 1,
+ 1, 1, 1, 1, 1
+    ]
+}

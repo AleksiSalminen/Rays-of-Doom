@@ -1,0 +1,95 @@
+
+{
+    "system": {
+        "ip": "127.0.0.1",
+        "port": 3000,
+        "framerate": 30,
+        "maxNumberOfPlayers": 4,
+        "favicon": "def/images/favicon.ico"
+    },
+    "players": {
+        "maxHealth": 100,
+        "walkSpeed": 0.04,
+        "turnSpeed": 0.08,
+        "height": 0.7,
+        "width": 0.4
+    },
+    "levels": [
+        "test-level",
+        "test-level2"
+    ],
+    "ui": {
+        "images": {
+            "paths": {
+                "uiImagePath": "../../images/ui/",
+                "skyboxImagePath": "../../images/skyboxes/",
+                "wallImagePath": "../../images/walls/",
+                "otherPlayerImagePath": "../../images/other_player/",
+                "fpsImagePath": "../../images/fps/"
+            },
+            "animation": {
+                "width": 400, "height": 700,
+                 "opf1":  "op-f-1.png",  "opf2":  "op-f-2.png",  "opf3":  "op-f-3.png",  "opf4":  "op-f-4.png",  "opf5":  "op-f-5.png",
+                 "opb1":  "op-b-1.png",  "opb2":  "op-b-2.png",  "opb3":  "op-b-3.png",  "opb4":  "op-b-4.png",  "opb5":  "op-b-5.png",
+                 "opl1":  "op-l-1.png",  "opl2":  "op-l-2.png",  "opl3":  "op-l-3.png",  "opl4":  "op-l-4.png",  "opl5":  "op-l-5.png",
+                 "opr1":  "op-r-1.png",  "opr2":  "op-r-2.png",  "opr3":  "op-r-3.png",  "opr4":  "op-r-4.png",  "opr5":  "op-r-5.png",
+                "opfl1": "op-fl-1.png", "opfl2": "op-fl-2.png", "opfl3": "op-fl-3.png", "opfl4": "op-fl-4.png", "opfl5": "op-fl-5.png",
+                "opbl1": "op-bl-1.png", "opbl2": "op-bl-2.png", "opbl3": "op-bl-3.png", "opbl4": "op-bl-4.png", "opbl5": "op-bl-5.png",
+                "opfr1": "op-fr-1.png", "opfr2": "op-fr-2.png", "opfr3": "op-fr-3.png", "opfr4": "op-fr-4.png", "opfr5": "op-fr-5.png",
+                "opbr1": "op-br-1.png", "opbr2": "op-br-2.png", "opbr3": "op-br-3.png", "opbr4": "op-br-4.png", "opbr5": "op-br-5.png"
+            }
+        },
+        "raycaster": {
+            "initialValues": {
+                "resolution": 300,
+                "focalLength": 0.8,
+                "range": 30,
+                "lightRange": 10,
+                "scaleFactor": 1200
+            },
+            "valueRanges": {
+                "resolution": {
+                    "min": 20,
+                    "max": 1000
+                },
+                "range": {
+                    "min": 5,
+                    "max": 100
+                }
+            }
+        },
+        "minimap": {
+            "initialValues": {
+                "show": true,
+                "position": "top",
+                "width": 80,
+                "height": 80,
+                "wallColor": "#808080",
+                "backgroundColor": "#000000",
+                "playerColor": "#008000",
+                "otherPlayerColor": "#0000FF"
+            },
+            "valueRanges": {
+                "show": [
+                    true, false
+                ],
+                "position": [
+                    "top-left",
+                    "top",
+                    "top-right",
+                    "bottom-left",
+                    "bottom",
+                    "bottom-right"
+                ],
+                "width": {
+                    "min": 20,
+                    "max": 150
+                },
+                "height": {
+                    "min": 20,
+                    "max": 150
+                }
+            }
+        }
+    }
+}

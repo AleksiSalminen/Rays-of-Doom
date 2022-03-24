@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Rays of Purity</title>
+
+	<!-- Load the helper files -->
+	<script type="text/javascript" src="./js/helpers/socket.io.js"></script>
+</head>
+
+<body id="body" style="color: #FFFFFF;background-color:#000000;">
+
+	<div id="titleScreen" style='width: 30%; height: 30%; margin: 0 auto; text-align: center'>
+		</br>
+		<h1>Rays of Purity</h1>
+		</br>
+		<div>
+			<input type="text" placeholder="Your name" id="name" />
+		</div>
+		</br></br></br>
+		<button type="submit" id="newGameButton">
+			Create New Game
+		</button>
+		</br></br>
+		<div>OR</div>
+		</br>
+		<div>
+			<input type="text" placeholder="Enter Game Code" id="gameCodeInput" />
+		</div>
+		</br>
+		<button type="submit" id="joinGameButton">
+			Join Game
+		</button>
+	</div>
+
+	<div id="gameLobby" style='display:none; width: 30%; height: 30%; margin: 0 auto; text-align: center'>
+		</br></br>
+		<h2>Lobby</h2>
+		</br>
+		<p id="gameCodeText"></p>
+		</br>
+		<p>Players:</p>
+		<ul id="playersList" style='list-style: none; padding-left: 0;'></ul>
+		</br></br>
+		<button id="launchGameButton">Launch</button>
+	</div>
+
+	<div id="gameView" style='display:none;'>
+		<table style="width: 90%; height: 90%; text-align: center;">
+			<tr>
+				<td>
+					<p></p>
+				</td>
+				<td>
+					<canvas id='gameDisplay' width='1' height='1' >
+				</td>
+				<td>
+					<p></p>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<script type="text/javascript" src="./js/helpers/jquery.min.js"></script>
+
+	<script type="text/javascript" src="./js/main/metrics.js"></script>
+	<script type="module" src="./js/main/handler.js"></script>
+	<script type="module" src="./js/main/graphics.js"></script>
+	<script type="module" src="./js/main/audio.js"></script>
+	<script type="module" src="./js/main/keyboard.js"></script>
+
+</body>
+
+</html>
