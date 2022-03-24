@@ -122,6 +122,10 @@ function handleMouseMove(e) {
   }
 }
 
+function handleMouseDown(e) {
+  socket.emit('shoot', {number: playerNumber});
+}
+
 
 /**
  * Socket message receiver handlers
@@ -206,6 +210,7 @@ document.addEventListener('pointerlockchange', handlePointerLockChange, false);
 function handlePointerLockChange() {
   if (document.pointerLockElement === gameDisplay) {
     document.addEventListener("mousemove", handleMouseMove, false);
+    document.addEventListener("mousedown", handleMouseDown, false);
   } else {
     document.removeEventListener("mousemove", handleMouseMove, false);
   }
