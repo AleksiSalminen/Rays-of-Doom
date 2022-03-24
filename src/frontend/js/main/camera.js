@@ -117,6 +117,7 @@ class Camera {
       this.drawMiniMap(player, players, level);
     }
     this.drawItemBelt(player.currentWeapon, player.weapons);
+    this.drawCrossHair();
   };
 
   /** Draw sky */
@@ -232,6 +233,36 @@ class Camera {
       // Fill the shape
       ctx.fill();
     }
+  }
+
+  /** Draw crosshair */
+
+  drawCrossHair() {
+    let length = 5;
+    let distance = 2;
+    let ctx = this.ctx;
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    ctx.moveTo(this.width/2-distance, this.height/2-distance);
+    ctx.lineTo(this.width/2-distance-length, this.height/2-distance-length);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(this.width/2+distance, this.height/2-distance);
+    ctx.lineTo(this.width/2+distance+length, this.height/2-distance-length);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(this.width/2-distance, this.height/2+distance);
+    ctx.lineTo(this.width/2-distance-length, this.height/2+distance+length);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(this.width/2+distance, this.height/2+distance);
+    ctx.lineTo(this.width/2+distance+length, this.height/2+distance+length);
+    ctx.stroke();
   }
 
   /** Draw maps */
