@@ -173,7 +173,8 @@ module.exports = {
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let character = stateCurrent.players[i];
-      if (character.getNumber() === params.number) {
+      if (character.getNumber() === params.number
+      && character.hp > 0) {
         let newPlayerPos = JSON.parse(JSON.stringify(character.getPosition()));
         let rotated = false;
 
@@ -259,7 +260,8 @@ module.exports = {
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let player = stateCurrent.players[i];
-      if (player.number === params.number) {
+      if (player.number === params.number
+      && player.hp > 0) {
         const weapon = player.currentWeapon;
         if (weapon.clipAmmo > 0 && weapon.cooldownTimer === weapon.cooldown) {
           console.log("POW!");
@@ -294,7 +296,8 @@ module.exports = {
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let player = stateCurrent.players[i];
-      if (player.getNumber() === params.number) {
+      if (player.getNumber() === params.number
+      && player.hp > 0) {
         const weapon = player.currentWeapon;
         if (weapon.reloadCoolDownTimer === weapon.reloadCoolDown 
         && weapon.ammo > 0) {
@@ -368,8 +371,10 @@ function gameLoop(roomName) {
       if (hitPlayer) {
         player.bullets.splice(bulletI, 1);
         hitPlayer.hp -= bullet.damage;
+        if (hitPlayer.hp < 0) {
+          hitPlayer.hp = 0;
+        }
         console.log("OUCHIE! Hit player: " + hitPlayer.name);
-        console.log("HP: " + hitPlayer.hp + "/" + hitPlayer.maxHP);
       }
     }
   }

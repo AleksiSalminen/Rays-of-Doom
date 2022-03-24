@@ -112,6 +112,9 @@ class Camera {
     this.drawSky(player.pos.rotation, level);
     this.drawColumns(player, players, level);
     this.drawWeapon(player.weaponImg);
+    if (player.hp === 0) {
+      this.drawDeathMessage();
+    }
     this.drawMetrics(level.name, player);
     if (this.minimap.show) {
       this.drawMiniMap(player, players, level);
@@ -263,6 +266,17 @@ class Camera {
     ctx.moveTo(this.width/2+distance, this.height/2+distance);
     ctx.lineTo(this.width/2+distance+length, this.height/2+distance+length);
     ctx.stroke();
+  }
+
+  /** Draw death message */
+
+  drawDeathMessage() {
+    let ctx = this.ctx;
+    ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+    ctx.fillRect(0, 0, this.width, this.height);
+    ctx.font = "28px Arial";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillText("YOU ARE DEAD" , this.width/2-100, this.height/2);
   }
 
   /** Draw maps */
