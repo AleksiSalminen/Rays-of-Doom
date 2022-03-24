@@ -99,6 +99,9 @@ function sendKeysPressed() {
     else if (key === 39) { // Right arrow key
       socket.emit('move', { dir: "RotRight", number: playerNumber });
     }
+    else if (key === 38) { // Up arrow key
+      socket.emit('shoot', {number: playerNumber});
+    }
   }
 }
 

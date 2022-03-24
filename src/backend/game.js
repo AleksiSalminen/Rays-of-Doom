@@ -1,7 +1,9 @@
 const { io } = require('./handler');
 const config = require("../../def/config/config.json");
 const helpers = require("./helpers");
+
 const Player = require("./objects/player");
+const Firearm = require("./objects/firearm");
 
 let state = {};
 let clientRooms = {};
@@ -90,6 +92,11 @@ module.exports = {
 
     const level = LEVELS[0];
 
+    const pistol = config.weapons.firearms[0];
+    const weapons = [
+      new Firearm(pistol.name, pistol.fpsImg, pistol.damage, pistol.cooldown, pistol.clipSize, pistol.ammo)
+    ];
+
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
       stateCurrent.players[i] = new Player(
@@ -106,7 +113,8 @@ module.exports = {
           rotation: 0
         },
         config.players.height,
-        config.players.width
+        config.players.width,
+        weapons
       );
     }
 
@@ -225,6 +233,15 @@ module.exports = {
       }
     }
 
+  },
+
+  /**
+   * 
+   * @param {*} client 
+   * @param {*} params 
+   */
+  shoot(client, params) {
+    console.log("PAU!");
   }
 
 };
@@ -259,14 +276,14 @@ function emitGameState(room, gameState) {
 }
 
 function emitLobbyState(room, gameState) {
-  for (let i = 0;i < gameState.players.length;i++) {
+  for (let i = 0; i < gameState.players.length; i++) {
     let player = gameState.players[i];
     io.to(player.client).emit("lobby", player.number, room, gameState);
   }
 }
 
 function emitGameLaunch(room, gameState) {
-  for (let i = 0;i < gameState.players.length;i++) {
+  for (let i = 0; i < gameState.players.length; i++) {
     let player = gameState.players[i];
     io.to(player.client).emit("init", gameState);
   }

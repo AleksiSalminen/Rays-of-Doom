@@ -7,7 +7,8 @@ const {
   joinGame,
   launchGame,
   removeClient,
-  movePlayer
+  movePlayer,
+  shoot
 } = require("./game");
 
 
@@ -25,6 +26,9 @@ io.on("connection", (client) => {
 
   client.on("move", handleMovePlayer);
   function handleMovePlayer(params) { movePlayer(client, params); }
+
+  client.on("shoot", handleShooting);
+  function handleShooting(params) { shoot(client, params); }
 
   client.on("disconnect", handleDisconnect);
   function handleDisconnect(params) { removeClient(client, params); }
