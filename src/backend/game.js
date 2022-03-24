@@ -263,7 +263,8 @@ module.exports = {
             player.pos.x,
             player.pos.y,
             weapon.bulletSpeed,
-            player.pos.rotation
+            player.pos.rotation,
+            weapon.damage
           );
 
           weapon.clipAmmo = weapon.clipAmmo - 1;
@@ -307,9 +308,23 @@ function gameLoop(roomName) {
 
     // Update bullets
     let bullet;
+    let hitPlayer = false;
+    let hitWall = false;
     for (let bulletI = 0;bulletI < player.bullets.length;bulletI++) {
       bullet = player.bullets[bulletI];
-
+      let oldX = bullet.x;
+      let oldY = bullet.y;
+      let xDiff = Math.cos(bullet.direction)*bullet.speed;
+      let yDiff = Math.sin(bullet.direction)*bullet.speed;
+      bullet.x += xDiff;
+      bullet.y += yDiff;
+      hitPlayer = helpers.checkIfBulletHitPlayer(oldX, oldY, bullet, player, state[roomName].players);
+      if (hitPlayer) {
+        player.bullets.splice(bulletI, 1);
+        hitPlayer.hp -= bullet.damage;
+        console.log("OUCHIE! Hit player: " + hitPlayer.name);
+        console.log("HP: " + hitPlayer.hp + "/" + hitPlayer.maxHP);
+      }
     }
   }
 }

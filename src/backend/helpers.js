@@ -37,6 +37,31 @@ module.exports = {
     }
 
     return levels;
+  },
+
+  checkIfBulletHitPlayer(oldX, oldY, bullet, player, players) {
+    let hitPlayer = undefined;
+
+    function calcPlayerDistFromBulletLine(startX, startY, endX, endY, plX, plY) {
+      const numerator = Math.abs( (endX-startX)*(startY-plY) - (startX-plX)*(endY-startY) );
+      const denominator = Math.sqrt( Math.pow(endX-startX,2) + Math.pow(endY-startY,2) );
+      return numerator/denominator;
+    }
+
+    let otherPlayer;
+    let distanceFromLine;
+    for (let plI = 0;plI < players.length;plI++) {
+      otherPlayer = players[plI];
+      if (otherPlayer.number !== player.number) {
+        distanceFromLine = calcPlayerDistFromBulletLine(oldX, oldY, bullet.x, bullet.y, otherPlayer.pos.x, otherPlayer.pos.y);
+        if (distanceFromLine <= otherPlayer.width/2) {
+          hitPlayer= otherPlayer;
+          plI = players.length;
+        }
+      }
+    }
+
+    return hitPlayer;
   }
 
 };
