@@ -116,7 +116,7 @@ class Camera {
     if (this.minimap.show) {
       this.drawMiniMap(player, players, level);
     }
-    this.drawItemBelt();
+    this.drawItemBelt(player.currentWeapon, player.weapons);
   };
 
   /** Draw sky */
@@ -162,7 +162,7 @@ class Camera {
 
   /** Draw items */
 
-  drawItemBelt() {
+  drawItemBelt(currentWeapon, weapons) {
     let ctx = this.ctx;
 
     let items = 4;
@@ -201,7 +201,16 @@ class Camera {
         startY + beltHeight/2 - itemMargin
       );
 
-      let percent = i*0.2 + 0.3;
+      let percent = 0;
+      if (currentWeapon.reloadCoolDownTimer !== currentWeapon.reloadCoolDown) {
+        percent = currentWeapon.reloadCoolDownTimer / currentWeapon.reloadCoolDown;
+      }
+      else {
+        percent = currentWeapon.cooldownTimer / currentWeapon.cooldown;
+      }
+      if (percent === 1) {
+        percent = 0;
+      }
       let radius = beltHeight/2 - itemMargin;
       let angleStart = Math.PI*3/2;
       let angleEnd = Math.PI*2 * percent;
