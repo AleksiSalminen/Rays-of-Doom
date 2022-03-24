@@ -8,7 +8,8 @@ const {
   launchGame,
   removeClient,
   movePlayer,
-  shoot
+  shoot,
+  reload
 } = require("./game");
 
 
@@ -29,6 +30,9 @@ io.on("connection", (client) => {
 
   client.on("shoot", handleShooting);
   function handleShooting(params) { shoot(client, params); }
+
+  client.on("reload", handleReload);
+  function handleReload(params) { reload(client, params); }
 
   client.on("disconnect", handleDisconnect);
   function handleDisconnect(params) { removeClient(client, params); }

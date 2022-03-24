@@ -102,6 +102,9 @@ function sendKeysPressed() {
     else if (key === 38) { // Up arrow key
       socket.emit('shoot', {number: playerNumber});
     }
+    else if (key === 82) { // R key
+      socket.emit('reload', {number: playerNumber});
+    }
   }
 }
 

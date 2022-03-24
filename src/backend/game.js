@@ -95,7 +95,12 @@ module.exports = {
 
     const pistol = config.weapons.firearms[0];
     const weapons = [
-      new Firearm(pistol.name, pistol.fpsImg, pistol.damage, pistol.cooldown, pistol.cooldownTimer, pistol.clipSize, pistol.ammo, pistol.clipAmmo, pistol.bulletSpeed)
+      new Firearm(
+        pistol.name, pistol.fpsImg, pistol.damage,
+        pistol.cooldown, pistol.cooldownTimer, pistol.clipSize,
+        pistol.ammo, pistol.clipAmmo, pistol.bulletSpeed,
+        pistol.reloadCoolDown, pistol.reloadCoolDownTimer
+      )
     ];
 
     let stateCurrent = state[roomName];
@@ -256,7 +261,7 @@ module.exports = {
         const weapon = player.currentWeapon;
         if (weapon.clipAmmo > 0 && weapon.cooldownTimer === weapon.cooldown) {
           console.log("POW!");
-          
+
           weapon.cooldownTimer = 0;
 
           const bullet = new Bullet(
@@ -270,6 +275,36 @@ module.exports = {
           weapon.clipAmmo = weapon.clipAmmo - 1;
 
           player.bullets.push(bullet);
+        }
+      }
+    }
+  },
+
+  /**
+   * 
+   */
+  reload(client, params) {
+    const roomName = clientRooms[client.id];
+    if (!roomName) {
+      return;
+    }
+
+    let stateCurrent = state[roomName];
+    for (let i = 0; i < stateCurrent.players.length; i++) {
+      let player = stateCurrent.players[i];
+      if (player.getNumber() === params.number) {
+        const weapon = player.currentWeapon;
+        if (weapon.reloadCoolDownTimer === weapon.reloadCoolDown 
+        && weapon.ammo > 0) {
+          weapon.reloadCoolDownTimer = 0;
+          if (weapon.ammo >= weapon.clipSize - weapon.clipAmmo) {
+            weapon.ammo = weapon.ammo - (weapon.clipSize - weapon.clipAmmo);
+            weapon.clipAmmo = weapon.clipSize;
+          }
+          else {
+            weapon.clipAmmo = weapon.clipAmmo + weapon.ammo;
+            weapon.ammo = 0;
+          }
         }
       }
     }
@@ -296,12 +331,20 @@ function gameLoop(roomName) {
 
     // Update weapons cooldowns
     let weapon;
-    for (let weaponI = 0;weaponI < player.weapons.length;weaponI++) {
+    for (let weaponI = 0; weaponI < player.weapons.length; weaponI++) {
       weapon = player.weapons[weaponI];
       if (weapon.cooldownTimer !== weapon.cooldown) {
         weapon.cooldownTimer += 1 / config.system.framerate;
         if (weapon.cooldownTimer >= weapon.cooldown) {
           weapon.cooldownTimer = weapon.cooldown;
+        }
+      }
+      if (weapon.reloadCoolDownTimer !== weapon.reloadCoolDown) {
+        weapon.cooldownTimer = 0;
+        weapon.reloadCoolDownTimer += 1 / config.system.framerate;
+        if (weapon.reloadCoolDownTimer >= weapon.reloadCoolDown) {
+          weapon.cooldownTimer = weapon.cooldown;
+          weapon.reloadCoolDownTimer = weapon.reloadCoolDown;
         }
       }
     }
@@ -310,15 +353,15 @@ function gameLoop(roomName) {
     let bullet;
     let hitPlayer = false;
     let hitWall = false;
-    for (let bulletI = 0;bulletI < player.bullets.length;bulletI++) {
+    for (let bulletI = 0; bulletI < player.bullets.length; bulletI++) {
       bullet = player.bullets[bulletI];
       let oldX = bullet.x;
       let oldY = bullet.y;
-      let xDiff = Math.cos(bullet.direction)*bullet.speed;
-      let yDiff = Math.sin(bullet.direction)*bullet.speed;
+      let xDiff = Math.cos(bullet.direction) * bullet.speed;
+      let yDiff = Math.sin(bullet.direction) * bullet.speed;
       bullet.x += xDiff;
       bullet.y += yDiff;
-      
+
       hitPlayer = helpers.checkIfBulletHitPlayer(oldX, oldY, bullet, player, state[roomName].players);
       if (hitPlayer) {
         player.bullets.splice(bulletI, 1);
