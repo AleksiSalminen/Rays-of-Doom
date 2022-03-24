@@ -112,7 +112,7 @@ class Camera {
     this.drawSky(player.pos.rotation, level);
     this.drawColumns(player, players, level);
     this.drawWeapon(player.weaponImg);
-    this.drawMetrics(level.name);
+    this.drawMetrics(level.name, player);
     if (this.minimap.show) {
       this.drawMiniMap(player, players, level);
     }
@@ -146,7 +146,7 @@ class Camera {
 
   /** Draw metrics */
 
-  drawMetrics(levelName) {
+  drawMetrics(levelName, player) {
     let ctx = this.ctx;
 
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -154,8 +154,10 @@ class Camera {
 
     ctx.font = "11px Arial";
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("FPS: "+fps + " / 60     Updates: 30/s" , 20, 13);
-    ctx.fillText("Level: "+levelName, this.width-100-20, 13);
+    ctx.fillText("FPS: "+fps + " / 60" , 20, 13);
+    ctx.fillText("Level: "+levelName, 120, 13);
+    ctx.fillText("HP: "+player.hp, this.width-200, 13);
+    ctx.fillText("Ammo: "+player.currentWeapon.clipAmmo+" / "+player.currentWeapon.ammo, this.width-140, 13);
   }
 
   /** Draw items */

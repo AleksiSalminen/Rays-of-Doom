@@ -318,6 +318,7 @@ function gameLoop(roomName) {
       let yDiff = Math.sin(bullet.direction)*bullet.speed;
       bullet.x += xDiff;
       bullet.y += yDiff;
+      
       hitPlayer = helpers.checkIfBulletHitPlayer(oldX, oldY, bullet, player, state[roomName].players);
       if (hitPlayer) {
         player.bullets.splice(bulletI, 1);
