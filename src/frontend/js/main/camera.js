@@ -494,7 +494,7 @@ class Camera {
     };
   };
 
-  /** Draw players */
+  /** Draw objects */
 
   drawObjects(player, players, enemies, angle, zBuffer) {
     let otherPlayer;
@@ -528,20 +528,24 @@ class Camera {
     let otherPlayerImg;
     for (let plI = 0; plI < players.length; plI++) {
       otherPlayer = players[plI];
-      enemy = enemies[enemyIndex];
-      if (enemy && enemy.dist < otherPlayer.dist) {
-        rowIndex = ANIMATION.getSpriteRowIndex(player.pos, enemy.pos);
-        otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + enemy.animation.frameIndex];
-        this.drawSprite(player, enemy, angle, otherPlayerImg, zBuffer);
-        enemyIndex++;
-      }
-      else {
-        if (otherPlayer.number !== player.number) {
-          rowIndex = ANIMATION.getSpriteRowIndex(player.pos, otherPlayer.pos);
-          otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + otherPlayer.animation.frameIndex];
-          this.drawSprite(player, otherPlayer, angle, otherPlayerImg, zBuffer);
-          this.drawPlayerName(player, otherPlayer, angle);
+
+      for (let eI = enemyIndex;eI < enemies.length; eI++) {
+        enemy = enemies[eI];
+        if (enemy.dist > otherPlayer.dist) {
+          rowIndex = ANIMATION.getSpriteRowIndex(player.pos, enemy.pos);
+          otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + enemy.animation.frameIndex];
+          this.drawSprite(player, enemy, angle, otherPlayerImg, zBuffer);
+          enemyIndex = eI;
         }
+        else {
+          eI = enemies.length;
+        }
+      }
+
+      if (otherPlayer.number !== player.number) {
+        rowIndex = ANIMATION.getSpriteRowIndex(player.pos, otherPlayer.pos);
+        otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + otherPlayer.animation.frameIndex];
+        this.drawSprite(player, otherPlayer, angle, otherPlayerImg, zBuffer);
       }
     }
 
