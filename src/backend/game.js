@@ -281,7 +281,7 @@ module.exports = {
         const weapon = player.currentWeapon;
         if (weapon.type === "Firearm") {
           if (weapon.reloadCoolDownTimer === weapon.reloadCoolDown
-            && weapon.ammo > 0) {
+            && weapon.ammo > 0 && weapon.clipAmmo < weapon.clipSize) {
             weapon.reloadCoolDownTimer = 0;
             if (weapon.ammo >= weapon.clipSize - weapon.clipAmmo) {
               weapon.ammo = weapon.ammo - (weapon.clipSize - weapon.clipAmmo);
