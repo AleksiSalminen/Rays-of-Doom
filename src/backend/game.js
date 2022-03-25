@@ -2,8 +2,6 @@ const { io } = require('./handler');
 const config = require("../../def/config/config.json");
 const helpers = require("./helpers");
 
-const Player = require("./objects/player");
-const Firearm = require("./objects/firearm");
 const Bullet = require("./objects/bullet");
 
 let state = {};
@@ -93,39 +91,9 @@ module.exports = {
 
     const level = LEVELS[0];
 
-    const pistol = config.weapons.firearms[0];
-    let weapons;
-
     let stateCurrent = state[roomName];
     for (let i = 0; i < stateCurrent.players.length; i++) {
-      weapons = [
-        new Firearm(
-          pistol.name, pistol.fpsImg, pistol.damage,
-          pistol.cooldown, pistol.cooldownTimer, pistol.clipSize,
-          pistol.ammo, pistol.clipAmmo, pistol.bulletSpeed,
-          pistol.reloadCoolDown, pistol.reloadCoolDownTimer
-        )
-      ];
-      
-      stateCurrent.players[i] = new Player(
-        stateCurrent.players[i].client,
-        stateCurrent.players[i].name,
-        stateCurrent.players[i].number,
-        config.players.maxHealth,
-        config.players.maxHealth,
-        config.players.walkSpeed,
-        config.players.turnSpeed,
-        {
-          x: level.playerSpawn.x,
-          y: level.playerSpawn.y,
-          rotation: 0
-        },
-        config.players.height,
-        config.players.width,
-        weapons,
-        weapons[0],
-        []
-      );
+      stateCurrent.players[i] = helpers.createPlayer(config, stateCurrent.players[i], level);
     }
 
     state[roomName].level = level;

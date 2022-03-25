@@ -2,8 +2,8 @@ const Weapon = require("./weapon.js");
 
 
 class Firearm extends Weapon {
-    constructor(name, fpsImg, damage, cooldown, cooldownTimer, clipSize, ammo, clipAmmo, bulletSpeed, reloadCoolDown, reloadCoolDownTimer) {
-        super(name, fpsImg, damage, cooldown, cooldownTimer);
+    constructor(type, name, fpsImg, damage, cooldown, cooldownTimer, clipSize, ammo, clipAmmo, bulletSpeed, reloadCoolDown, reloadCoolDownTimer) {
+        super(type, name, fpsImg, damage, cooldown, cooldownTimer);
         this.clipSize = clipSize;
         this.ammo = ammo;
         this.clipAmmo = clipAmmo;

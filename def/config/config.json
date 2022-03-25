@@ -15,17 +15,25 @@
         "width": 0.4
     },
     "weapons": {
-        "melee": {
-
-        },
+        "melee": [
+            {
+                "type": "Baton",
+                "name": "Stun Baton",
+                "fpsImg": "", 
+                "damage": 20, 
+                "cooldown": 1, 
+                "cooldownTimer": 1,
+                "reach": 1
+            }
+        ],
         "firearms": [
             {
                 "type": "Pistol",
                 "name": "Shock Pistol",
-                "fpsImg": "", 
-                "damage": 10, 
-                "cooldown": 0.6, 
-                "cooldownTimer": 0.6,  
+                "fpsImg": "",
+                "damage": 10,
+                "cooldown": 0.6,
+                "cooldownTimer": 0.6,
                 "clipSize": 10,
                 "ammo": 80,
                 "clipAmmo": 10,

@@ -2,7 +2,32 @@
 const fs = require("fs");
 const config = require("../../def/config/config.json");
 
+const Player = require("./objects/player");
+const Firearm = require("./objects/firearm");
+const MeleeWeapon = require("./objects/melee_weapon");
 const Level = require("./objects/level.js");
+
+
+function createWeapons(config) {
+  const baton = config.melee[0];
+  const pistol = config.firearms[0];
+
+  let weapons = [];
+
+  weapons.push(new MeleeWeapon(
+    baton.type, baton.name, baton.fpsImg, baton.damage, 
+    baton.cooldown, baton.cooldownTimer, baton.reach
+  ));
+
+  weapons.push(new Firearm(
+    pistol.type, pistol.name, pistol.fpsImg, pistol.damage,
+    pistol.cooldown, pistol.cooldownTimer, pistol.clipSize,
+    pistol.ammo, pistol.clipAmmo, pistol.bulletSpeed,
+    pistol.reloadCoolDown, pistol.reloadCoolDownTimer
+  ));
+
+  return weapons;
+}
 
 module.exports = {
 
@@ -37,6 +62,33 @@ module.exports = {
     }
 
     return levels;
+  },
+
+  createPlayer(config, playerInfo, level) {
+    let player;
+    let weapons = createWeapons(config.weapons);
+
+    player = new Player(
+      playerInfo.client,
+      playerInfo.name,
+      playerInfo.number,
+      config.players.maxHealth,
+      config.players.maxHealth,
+      config.players.walkSpeed,
+      config.players.turnSpeed,
+      {
+        x: level.playerSpawn.x,
+        y: level.playerSpawn.y,
+        rotation: 0
+      },
+      config.players.height,
+      config.players.width,
+      weapons,
+      weapons[0],
+      []
+    );
+
+    return player;
   },
 
   checkIfBulletHitPlayer(oldX, oldY, bullet, player, players) {

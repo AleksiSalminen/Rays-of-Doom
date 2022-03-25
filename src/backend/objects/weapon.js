@@ -1,7 +1,8 @@
 
 
 class Weapon {
-    constructor(name, fpsImg, damage, cooldown, cooldownTimer) {
+    constructor(type, name, fpsImg, damage, cooldown, cooldownTimer) {
+        this.type = type;
         this.name = name;
         this.fpsImg = fpsImg;
         this.damage = damage;
