@@ -100,10 +100,10 @@ function sendKeysPressed() {
       socket.emit('move', { dir: "RotRight", number: playerNumber });
     }
     else if (key === 38) { // Up arrow key
-      socket.emit('attack', {number: playerNumber});
+      socket.emit('attack', { number: playerNumber });
     }
     else if (key === 82) { // R key
-      socket.emit('reload', {number: playerNumber});
+      socket.emit('reload', { number: playerNumber });
     }
   }
 }
@@ -123,8 +123,28 @@ function handleMouseMove(e) {
 }
 
 function handleMouseDown(e) {
-  socket.emit('attack', {number: playerNumber});
+  socket.emit('attack', { number: playerNumber });
 }
+
+function handleMouseWheel(e) {
+  let delta = null
+  let direction = false;
+
+  if (!e) { // if the event not provided, get it from the window object
+    e = window.event;
+  }
+  if (e.wheelDelta) { // will work in most cases
+    delta = e.wheelDelta / 60;
+  } else if (e.detail) { // fallback for Firefox
+    delta = -e.detail / 2;
+  }
+  if (delta !== null) {
+    direction = delta > 0 ? 'up' : 'down';
+  }
+
+  socket.emit('changeWeapon', { number: playerNumber, direction: direction });
+}
+document.addEventListener("wheel", handleMouseWheel, false);
 
 
 /**

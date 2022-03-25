@@ -9,7 +9,8 @@ const {
   removeClient,
   movePlayer,
   attack,
-  reload
+  reload,
+  changeWeapon
 } = require("./game");
 
 
@@ -33,6 +34,9 @@ io.on("connection", (client) => {
 
   client.on("reload", handleReload);
   function handleReload(params) { reload(client, params); }
+
+  client.on("changeWeapon", handleChangeWeapon);
+  function handleChangeWeapon(params) { changeWeapon(client, params); }
 
   client.on("disconnect", handleDisconnect);
   function handleDisconnect(params) { removeClient(client, params); }
