@@ -12,10 +12,10 @@ function createGraph(level) {
 
     for (let i = 0;i < level.walls.length;i++) {
         if (level.walls[i] === 0) {
-            structuredLevel[Math.floor(i / level.dimensions.width)][i % level.dimensions.width] = 1;
+            structuredLevel[i % level.dimensions.width][Math.floor(i / level.dimensions.width)] = 1;
         }
         else {
-            structuredLevel[Math.floor(i / level.dimensions.width)][i % level.dimensions.width] = 0;
+            structuredLevel[i % level.dimensions.width][Math.floor(i / level.dimensions.width)] = 0;
         }
     }
 
@@ -64,14 +64,21 @@ function getRoute(player, enemy, level) {
 
 
 class Enemy extends Character {
-    constructor(name, maxHP, hp, walkSpd, position, height, width) {
+    constructor(name, maxHP, hp, walkSpd, position, height, width, pathUpdateDelay, pathUpdateTimer) {
         super(name, maxHP, hp, walkSpd, position, height, width);
         this.route = [];
+        this.pathUpdateDelay = pathUpdateDelay;
+        this.pathUpdateTimer = pathUpdateTimer;
     }
 
     update(player, level) {
-        this.route = getRoute(player, this, level);
-        
+        if (this.pathUpdateTimer === this.pathUpdateDelay) {
+            this.route = getRoute(player, this, level);
+            this.pathUpdateTimer = 0;
+        }
+        else {
+            this.pathUpdateTimer++;
+        }
     }
 
 }

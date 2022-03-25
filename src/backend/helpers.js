@@ -100,7 +100,8 @@ module.exports = {
     for (let i = 0;i < enemyCount;i++) {
       enemy = new Enemy(
         config[0].name, config[0].maxHP, config[0].hp, config[0].walkSpd, 
-        {x:2,y:2+i}, config[0].height, config[0].width
+        {x:2,y:2+i}, config[0].height, config[0].width,
+        config[0].pathUpdateDelay, config[0].pathUpdateTimer
       );
       enemies.push(enemy);
     }

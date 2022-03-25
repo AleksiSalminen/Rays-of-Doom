@@ -50,7 +50,9 @@
             "hp": 30,
             "walkSpd": 0.03,
             "height": 0.7,
-            "width": 0.4
+            "width": 0.4,
+            "pathUpdateDelay": 15,
+            "pathUpdateTimer": 15
         }
     ],
     "levels": [

@@ -348,7 +348,7 @@ class Camera {
       eX = enemy.pos.x;
       eY = enemy.pos.y;
       ctx.beginPath();
-      ctx.arc(startX + eX * stepX, startY + eY * stepY, stepX / 2, 0, Math.PI * 2);
+      ctx.arc(startX + eX * stepX, startY + eY * stepY, stepX/3, 0, Math.PI * 2);
       ctx.fill();
     }
 
