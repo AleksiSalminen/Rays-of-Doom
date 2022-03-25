@@ -2,10 +2,10 @@
 const fs = require("fs");
 const config = require("../../def/config/config.json");
 
-const Player = require("./objects/player");
-const Firearm = require("./objects/firearm");
-const MeleeWeapon = require("./objects/melee_weapon");
-const Level = require("./objects/level.js");
+const Player = require("./objects/characters/player");
+const Firearm = require("./objects/weapons/firearm");
+const MeleeWeapon = require("./objects/weapons/melee_weapon");
+const Level = require("./objects/world/level.js");
 
 
 function createWeapons(config) {

@@ -2,7 +2,7 @@ const { io } = require('./handler');
 const config = require("../../def/config/config.json");
 const helpers = require("./helpers");
 
-const Bullet = require("./objects/bullet");
+const Bullet = require("./objects/weapons/bullet");
 
 let state = {};
 let clientRooms = {};
