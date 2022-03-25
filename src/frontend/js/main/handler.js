@@ -8,6 +8,9 @@ let gameCode;
 let playerNumber;
 let player;
 
+let weaponChangeDelay = 5;
+let weaponChangeTimer = weaponChangeDelay;
+
 /* Establish socket connection with the server backend */
 const socket = io(serverAddress);
 
@@ -24,6 +27,9 @@ function updateGame(playerNumber, gameState) {
   console.log(gameCode);
   console.log(gameState);
 
+  if (weaponChangeTimer < weaponChangeDelay) {
+    weaponChangeTimer++;
+  }
   player = findPlayer(playerNumber, gameState.players);
   GRAPHICS.updateGraphics(player, gameState.players, gameState.level);
 }
@@ -104,6 +110,18 @@ function sendKeysPressed() {
     }
     else if (key === 82) { // R key
       socket.emit('reload', { number: playerNumber });
+    }
+    else if (key === 81) { // Q key
+      if (weaponChangeTimer === weaponChangeDelay) {
+        socket.emit('changeWeapon', { number: playerNumber, direction: "up" });
+        weaponChangeTimer = 0;
+      }
+    }
+    else if (key === 69) { // E key
+      if (weaponChangeTimer === weaponChangeDelay) {
+        socket.emit('changeWeapon', { number: playerNumber, direction: "down" });
+        weaponChangeTimer = 0;
+      }
     }
   }
 }
