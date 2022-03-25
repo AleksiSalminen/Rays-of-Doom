@@ -11,7 +11,12 @@ function createGraph(level) {
     }
 
     for (let i = 0;i < level.walls.length;i++) {
-        structuredLevel[Math.floor(i / level.dimensions.width)][i % level.dimensions.width] = level.walls[i];
+        if (level.walls[i] === 0) {
+            structuredLevel[Math.floor(i / level.dimensions.width)][i % level.dimensions.width] = 1;
+        }
+        else {
+            structuredLevel[Math.floor(i / level.dimensions.width)][i % level.dimensions.width] = 0;
+        }
     }
 
     let graph = new Graph(structuredLevel);
@@ -30,7 +35,8 @@ function getRoute(player, enemy, level) {
     ;
     // result is an array containing the shortest path
     var result = aStar.search(graph, start, end);
-    console.log(result);
+    return result;
+    //console.log(result);
     /*
     var graphDiagonal = new Graph([
         [1, 1, 1, 1],
@@ -60,11 +66,12 @@ function getRoute(player, enemy, level) {
 class Enemy extends Character {
     constructor(name, maxHP, hp, walkSpd, position, height, width) {
         super(name, maxHP, hp, walkSpd, position, height, width);
+        this.route = [];
     }
 
     update(player, level) {
-        getRoute(player, this, level);
-
+        this.route = getRoute(player, this, level);
+        
     }
 
 }

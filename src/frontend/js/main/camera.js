@@ -117,7 +117,7 @@ class Camera {
     }
     this.drawMetrics(level.name, player);
     if (this.minimap.show) {
-      this.drawMiniMap(player, players, level);
+      this.drawMiniMap(player, players, enemies, level);
     }
     this.drawItemBelt(player.currentWeapon, player.weapons);
     this.drawCrossHair();
@@ -299,7 +299,7 @@ class Camera {
 
   /** Draw maps */
 
-  drawMiniMap(player, players, level) {
+  drawMiniMap(player, players, enemies, level) {
     let ctx = this.ctx;
     let minimap = this.minimap;
 
@@ -326,6 +326,30 @@ class Camera {
           ctx.fillRect(startX + i * stepX, startY + j * stepY, stepX + 1, stepY + 1);
         }
       }
+    }
+
+    let enemy;
+    let eX;
+    let eY;
+
+    /** Draw enemy path */
+    ctx.fillStyle = "#990000";
+    enemy = enemies[0];
+    let route;
+    for (let g = 0;g < enemy.route.length;g++) {
+      route = enemy.route[g];
+      ctx.fillRect(startX + route.x * stepX, startY + route.y * stepY, stepX, stepY);
+    }
+
+    /** Draw enemies */
+    ctx.fillStyle = "#FF0000";
+    for (let eI = 0;eI < enemies.length;eI++) {
+      enemy = enemies[eI];
+      eX = enemy.pos.x;
+      eY = enemy.pos.y;
+      ctx.beginPath();
+      ctx.arc(startX + eX * stepX, startY + eY * stepY, stepX / 2, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     let plX;
