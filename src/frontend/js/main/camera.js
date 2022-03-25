@@ -333,13 +333,13 @@ class Camera {
     let eY;
 
     /** Draw enemy path */
-    ctx.fillStyle = "#990000";
+    /*ctx.fillStyle = "#990000";
     enemy = enemies[0];
     let route;
     for (let g = 0;g < enemy.route.length;g++) {
       route = enemy.route[g];
       ctx.fillRect(startX + route.x * stepX, startY + route.y * stepY, stepX, stepY);
-    }
+    }*/
 
     /** Draw enemies */
     ctx.fillStyle = "#FF0000";

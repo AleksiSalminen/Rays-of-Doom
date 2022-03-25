@@ -64,8 +64,8 @@ function getRoute(player, enemy, level) {
 
 
 class Enemy extends Character {
-    constructor(name, maxHP, hp, walkSpd, position, height, width, pathUpdateDelay, pathUpdateTimer) {
-        super(name, maxHP, hp, walkSpd, position, height, width);
+    constructor(name, maxHP, hp, walkSpd, pos, height, width, pathUpdateDelay, pathUpdateTimer) {
+        super(name, maxHP, hp, walkSpd, pos, height, width);
         this.route = [];
         this.pathUpdateDelay = pathUpdateDelay;
         this.pathUpdateTimer = pathUpdateTimer;
@@ -79,8 +79,42 @@ class Enemy extends Character {
         else {
             this.pathUpdateTimer++;
         }
+        this.move(level);
     }
 
+    move(level) {
+        const route = this.route[0];
+        if (!route) {
+            return;
+        }
+        let eX = this.pos.x;
+        let eY = this.pos.y;
+        // Get the angle between two points
+        let yDiff = route.y+0.5 - eY;
+        let xDiff = route.x+0.5 - eX;
+        let theta = Math.atan2(yDiff, xDiff);
+        // Get the changes in position
+        let xChange = Math.cos(theta) * this.walkSpd;
+        let yChange = Math.sin(theta) * this.walkSpd;
+
+        // Calculate the new position
+        let newPos = {
+            x: this.pos.x + xChange,
+            y: this.pos.y + yChange
+        };
+
+        let hitWall = false;
+        let tileLoc = Math.floor(newPos.y) * level.dimensions.width + Math.floor(newPos.x);
+        if (level.walls[tileLoc] !== 0) {
+          hitWall = true;
+        }
+
+        if (!hitWall) {
+            // Move to new position
+            this.pos.x += xChange;
+            this.pos.y += yChange;
+        }
+    }
 }
 
 

@@ -313,20 +313,20 @@ module.exports = {
       let player = stateCurrent.players[i];
       if (player.getNumber() === params.number && player.hp > 0) {
         console.log("Change weapon " + params.direction);
-        for (let wI = 0;wI < player.weapons.length;wI++) {
+        for (let wI = 0; wI < player.weapons.length; wI++) {
           if (player.currentWeapon === player.weapons[wI]) {
             if (wI === 0 && params.direction === "up") {
-              player.currentWeapon = player.weapons[player.weapons.length-1];
+              player.currentWeapon = player.weapons[player.weapons.length - 1];
             }
-            else if (wI === player.weapons.length-1 
-            && params.direction === "down") {
+            else if (wI === player.weapons.length - 1
+              && params.direction === "down") {
               player.currentWeapon = player.weapons[0];
             }
             else if (params.direction === "up") {
-              player.currentWeapon = player.weapons[wI-1];
+              player.currentWeapon = player.weapons[wI - 1];
             }
             else if (params.direction === "down") {
-              player.currentWeapon = player.weapons[wI+1];
+              player.currentWeapon = player.weapons[wI + 1];
             }
             console.log("Current weapon: " + player.currentWeapon.name);
             wI = player.weapons.length;
