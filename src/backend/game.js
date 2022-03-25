@@ -238,8 +238,21 @@ module.exports = {
             console.log("HAWOOSH!");
             weapon.cooldownTimer = 0;
             let hitPlayer = helpers.checkIfMeleeHitPlayer(player, stateCurrent.players);
+            let hitEnemy = helpers.checkIfMeleeHitEnemy(player, stateCurrent.enemies);
             if (hitPlayer) {
               console.log("OUCHIE! Hit player: " + hitPlayer.name);
+              hitPlayer.hp -= weapon.damage;
+              if (hitPlayer.hp < 0) {
+                hitPlayer.hp = 0;
+              }
+            }
+            else if (hitEnemy !== undefined) {
+              console.log("Hit enemy: " + stateCurrent.enemies[hitEnemy].name);
+              stateCurrent.enemies[hitEnemy].hp -= weapon.damage;
+              if (stateCurrent.enemies[hitEnemy].hp <= 0) {
+                console.log("Destroyed enemy: " + stateCurrent.enemies[hitEnemy].name);
+                stateCurrent.enemies.splice(hitEnemy, 1);
+              }
             }
           }
         }
@@ -346,6 +359,7 @@ function gameLoop(roomName) {
 
   for (h = 0; h < state[roomName].players.length; h++) {
     let player = state[roomName].players[h];
+    let enemies = state[roomName].enemies;
 
     if (player.moving) {
       player.animation.update();
@@ -391,6 +405,7 @@ function gameLoop(roomName) {
       bullet.y += yDiff;
 
       hitPlayer = helpers.checkIfBulletHitPlayer(oldX, oldY, bullet, player, state[roomName].players);
+      hitEnemy = helpers.checkIfBulletHitEnemy(oldX, oldY, bullet, state[roomName].enemies);
       hitWall = helpers.checkIfBulletHitWall(bullet, state[roomName].level.walls, state[roomName].level.dimensions);
       if (hitPlayer) {
         player.bullets.splice(bulletI, 1);
@@ -401,6 +416,16 @@ function gameLoop(roomName) {
         }
         console.log("OUCHIE! Hit player: " + hitPlayer.name);
       }
+      else if (hitEnemy !== undefined) {
+        console.log("Hit enemy: " + enemies[hitEnemy].name);
+        player.bullets.splice(bulletI, 1);
+        bulletI--;
+        enemies[hitEnemy].hp -= bullet.damage;
+        if (enemies[hitEnemy].hp <= 0) {
+          console.log("Destroyed enemy: " + enemies[hitEnemy].name);
+          enemies.splice(hitEnemy, 1);
+        }
+      }
       else if (hitWall) {
         player.bullets.splice(bulletI, 1);
         bulletI--;
@@ -409,7 +434,6 @@ function gameLoop(roomName) {
     }
 
     // Update enemies
-    let enemies = state[roomName].enemies;
     let enemy;
     for (let enemyI = 0; enemyI < enemies.length; enemyI++) {
       enemy = enemies[enemyI];

@@ -16,7 +16,7 @@ function createWeapons(config) {
   let weapons = [];
 
   weapons.push(new MeleeWeapon(
-    baton.type, baton.name, baton.fpsImg, baton.damage, 
+    baton.type, baton.name, baton.fpsImg, baton.damage,
     baton.cooldown, baton.cooldownTimer, baton.reach
   ));
 
@@ -97,10 +97,10 @@ module.exports = {
 
     let enemy;
     let enemyCount = 3;
-    for (let i = 0;i < enemyCount;i++) {
+    for (let i = 0; i < enemyCount; i++) {
       enemy = new Enemy(
-        config[0].name, config[0].maxHP, config[0].hp, config[0].walkSpd, 
-        {x:2,y:2+i}, config[0].height, config[0].width,
+        config[0].name, config[0].maxHP, config[0].hp, config[0].walkSpd,
+        { x: 2, y: 2 + i }, config[0].height, config[0].width,
         config[0].pathUpdateDelay, config[0].pathUpdateTimer
       );
       enemies.push(enemy);
@@ -156,6 +156,52 @@ module.exports = {
     return hitPlayer;
   },
 
+  checkIfBulletHitEnemy(oldX, oldY, bullet, enemies) {
+    let hitEnemy = undefined;
+
+    function checkIfPointIsBetween(oldX, oldY, endX, endY, plX, plY) {
+      let isBetween = false;
+      if (endX >= oldX && plX <= endX && plX >= oldX) {
+        if (endY >= oldY && plY <= endY && plY >= oldY) {
+          isBetween = true;
+        }
+        else if (endY < oldY && plY >= endY && plY <= oldY) {
+          isBetween = true;
+        }
+      }
+      else if (endX < oldX && plX >= endX && plX <= oldX) {
+        if (endY >= oldY && plY <= endY && plY >= oldY) {
+          isBetween = true;
+        }
+        else if (endY < oldY && plY >= endY && plY <= oldY) {
+          isBetween = true;
+        }
+      }
+      return isBetween;
+    }
+
+    function calcEnemyDistFromBulletLine(startX, startY, endX, endY, plX, plY) {
+      const numerator = Math.abs((endX - startX) * (startY - plY) - (startX - plX) * (endY - startY));
+      const denominator = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+      return numerator / denominator;
+    }
+
+    let enemy;
+    let distanceFromLine;
+    for (let plI = 0; plI < enemies.length; plI++) {
+      enemy = enemies[plI];
+      if (checkIfPointIsBetween(oldX, oldY, bullet.x, bullet.y, enemy.pos.x, enemy.pos.y)) {
+        distanceFromLine = calcEnemyDistFromBulletLine(oldX, oldY, bullet.x, bullet.y, enemy.pos.x, enemy.pos.y);
+        if (distanceFromLine <= enemy.width / 2) {
+          hitEnemy = plI;
+          plI = enemies.length;
+        }
+      }
+    }
+
+    return hitEnemy;
+  },
+
   checkIfBulletHitWall(bullet, walls, dimensions) {
     let hitWall;
 
@@ -173,13 +219,13 @@ module.exports = {
     let hitPlayer;
 
     function calcDistance(x1, y1, x2, y2) {
-      return Math.sqrt(Math.abs( Math.pow(x2-x1,2) + Math.pow(y2-y1,2) ));
+      return Math.sqrt(Math.abs(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
     }
 
     const weapon = player.currentWeapon;
     let otherPlayer;
     let distance = 0;
-    for (let plI = 0;plI < players.length;plI++) {
+    for (let plI = 0; plI < players.length; plI++) {
       otherPlayer = players[plI];
       if (player.number !== otherPlayer.number) {
         distance = calcDistance(player.pos.x, player.pos.y, otherPlayer.pos.x, otherPlayer.pos.y);
@@ -191,6 +237,28 @@ module.exports = {
     }
 
     return hitPlayer;
+  },
+
+  checkIfMeleeHitEnemy(player, enemies) {
+    let hitEnemy;
+
+    function calcDistance(x1, y1, x2, y2) {
+      return Math.sqrt(Math.abs(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
+    }
+
+    const weapon = player.currentWeapon;
+    let enemy;
+    let distance = 0;
+    for (let plI = 0; plI < enemies.length; plI++) {
+      enemy = enemies[plI];
+      distance = calcDistance(player.pos.x, player.pos.y, enemy.pos.x, enemy.pos.y);
+      if (distance <= weapon.reach) {
+        hitEnemy = plI;
+        plI = enemies.length;
+      }
+    }
+
+    return hitEnemy;
   }
 
 };
