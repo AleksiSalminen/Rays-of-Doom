@@ -142,7 +142,7 @@ module.exports = {
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let character = stateCurrent.players[i];
       if (character.getNumber() === params.number
-      && character.hp > 0) {
+        && character.hp > 0) {
         let newPlayerPos = JSON.parse(JSON.stringify(character.getPosition()));
         let rotated = false;
 
@@ -219,7 +219,7 @@ module.exports = {
    * @param {*} client 
    * @param {*} params 
    */
-  shoot(client, params) {
+  attack(client, params) {
     const roomName = clientRooms[client.id];
     if (!roomName) {
       return;
@@ -229,24 +229,36 @@ module.exports = {
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let player = stateCurrent.players[i];
       if (player.number === params.number
-      && player.hp > 0) {
+        && player.hp > 0) {
         const weapon = player.currentWeapon;
-        if (weapon.clipAmmo > 0 && weapon.cooldownTimer === weapon.cooldown) {
-          console.log("POW!");
+        if (weapon.type === "Melee") {
+          if (weapon.cooldownTimer === weapon.cooldown) {
+            console.log("HAWOOSH!");
+            weapon.cooldownTimer = 0;
+            let hitPlayer = helpers.checkIfMeleeHitPlayer(player, stateCurrent.players);
+            if (hitPlayer) {
+              console.log("OUCHIE! Hit player: " + hitPlayer.name);
+            }
+          }
+        }
+        else if (weapon.type === "Firearm") {
+          if (weapon.clipAmmo > 0 && weapon.cooldownTimer === weapon.cooldown) {
+            console.log("POW!");
 
-          weapon.cooldownTimer = 0;
+            weapon.cooldownTimer = 0;
 
-          const bullet = new Bullet(
-            player.pos.x,
-            player.pos.y,
-            weapon.bulletSpeed,
-            player.pos.rotation,
-            weapon.damage
-          );
+            const bullet = new Bullet(
+              player.pos.x,
+              player.pos.y,
+              weapon.bulletSpeed,
+              player.pos.rotation,
+              weapon.damage
+            );
 
-          weapon.clipAmmo = weapon.clipAmmo - 1;
+            weapon.clipAmmo = weapon.clipAmmo - 1;
 
-          player.bullets.push(bullet);
+            player.bullets.push(bullet);
+          }
         }
       }
     }
@@ -265,18 +277,20 @@ module.exports = {
     for (let i = 0; i < stateCurrent.players.length; i++) {
       let player = stateCurrent.players[i];
       if (player.getNumber() === params.number
-      && player.hp > 0) {
+        && player.hp > 0) {
         const weapon = player.currentWeapon;
-        if (weapon.reloadCoolDownTimer === weapon.reloadCoolDown 
-        && weapon.ammo > 0) {
-          weapon.reloadCoolDownTimer = 0;
-          if (weapon.ammo >= weapon.clipSize - weapon.clipAmmo) {
-            weapon.ammo = weapon.ammo - (weapon.clipSize - weapon.clipAmmo);
-            weapon.clipAmmo = weapon.clipSize;
-          }
-          else {
-            weapon.clipAmmo = weapon.clipAmmo + weapon.ammo;
-            weapon.ammo = 0;
+        if (weapon.type === "Firearm") {
+          if (weapon.reloadCoolDownTimer === weapon.reloadCoolDown
+            && weapon.ammo > 0) {
+            weapon.reloadCoolDownTimer = 0;
+            if (weapon.ammo >= weapon.clipSize - weapon.clipAmmo) {
+              weapon.ammo = weapon.ammo - (weapon.clipSize - weapon.clipAmmo);
+              weapon.clipAmmo = weapon.clipSize;
+            }
+            else {
+              weapon.clipAmmo = weapon.clipAmmo + weapon.ammo;
+              weapon.ammo = 0;
+            }
           }
         }
       }
@@ -312,12 +326,14 @@ function gameLoop(roomName) {
           weapon.cooldownTimer = weapon.cooldown;
         }
       }
-      if (weapon.reloadCoolDownTimer !== weapon.reloadCoolDown) {
-        weapon.cooldownTimer = 0;
-        weapon.reloadCoolDownTimer += 1 / config.system.framerate;
-        if (weapon.reloadCoolDownTimer >= weapon.reloadCoolDown) {
-          weapon.cooldownTimer = weapon.cooldown;
-          weapon.reloadCoolDownTimer = weapon.reloadCoolDown;
+      if (weapon.type === "Firearm") {
+        if (weapon.reloadCoolDownTimer !== weapon.reloadCoolDown) {
+          weapon.cooldownTimer = 0;
+          weapon.reloadCoolDownTimer += 1 / config.system.framerate;
+          if (weapon.reloadCoolDownTimer >= weapon.reloadCoolDown) {
+            weapon.cooldownTimer = weapon.cooldown;
+            weapon.reloadCoolDownTimer = weapon.reloadCoolDown;
+          }
         }
       }
     }

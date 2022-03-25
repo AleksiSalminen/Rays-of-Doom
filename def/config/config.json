@@ -17,7 +17,7 @@
     "weapons": {
         "melee": [
             {
-                "type": "Baton",
+                "type": "Melee",
                 "name": "Stun Baton",
                 "fpsImg": "", 
                 "damage": 20, 
@@ -28,7 +28,7 @@
         ],
         "firearms": [
             {
-                "type": "Pistol",
+                "type": "Firearm",
                 "name": "Shock Pistol",
                 "fpsImg": "",
                 "damage": 10,

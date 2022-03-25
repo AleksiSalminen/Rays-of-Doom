@@ -149,6 +149,30 @@ module.exports = {
     }
 
     return hitWall;
+  },
+
+  checkIfMeleeHitPlayer(player, players) {
+    let hitPlayer;
+
+    function calcDistance(x1, y1, x2, y2) {
+      return Math.sqrt(Math.abs( Math.pow(x2-x1,2) + Math.pow(y2-y1,2) ));
+    }
+
+    const weapon = player.currentWeapon;
+    let otherPlayer;
+    let distance = 0;
+    for (let plI = 0;plI < players.length;plI++) {
+      otherPlayer = players[plI];
+      if (player.number !== otherPlayer.number) {
+        distance = calcDistance(player.pos.x, player.pos.y, otherPlayer.pos.x, otherPlayer.pos.y);
+        if (distance <= weapon.reach) {
+          hitPlayer = otherPlayer;
+          plI = players.length;
+        }
+      }
+    }
+
+    return hitPlayer;
   }
 
 };

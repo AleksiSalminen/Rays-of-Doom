@@ -100,7 +100,7 @@ function sendKeysPressed() {
       socket.emit('move', { dir: "RotRight", number: playerNumber });
     }
     else if (key === 38) { // Up arrow key
-      socket.emit('shoot', {number: playerNumber});
+      socket.emit('attack', {number: playerNumber});
     }
     else if (key === 82) { // R key
       socket.emit('reload', {number: playerNumber});
@@ -123,7 +123,7 @@ function handleMouseMove(e) {
 }
 
 function handleMouseDown(e) {
-  socket.emit('shoot', {number: playerNumber});
+  socket.emit('attack', {number: playerNumber});
 }
 
 
