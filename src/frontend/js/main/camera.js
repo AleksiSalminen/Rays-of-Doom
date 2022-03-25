@@ -108,9 +108,9 @@ class Camera {
 
   /** The main rendering method */
 
-  render(player, players, level) {
+  render(player, players, enemies, level) {
     this.drawSky(player.pos.rotation, level);
-    this.drawColumns(player, players, level);
+    this.drawColumns(player, players, enemies, level);
     this.drawWeapon(player.weaponImg);
     if (player.hp === 0) {
       this.drawDeathMessage();
@@ -371,7 +371,7 @@ class Camera {
 
   /** Draw columns */
 
-  drawColumns(player, players, level) {
+  drawColumns(player, players, enemies, level) {
     let ctx = this.ctx;
     let wallImages = this.wallImages;
     let wallImagePath = this.wallImagePath;
@@ -404,7 +404,7 @@ class Camera {
       let ray = RAYCASTING.castRay(level, player.pos, player.pos.rotation + angle, this.range);
       this.drawColumn(column, ray, angle, level, zBuffer);
     }
-    this.drawPlayers(player, players, player.pos.rotation, zBuffer);
+    this.drawObjects(player, players, enemies, player.pos.rotation, zBuffer);
     ctx.restore();
   };
 
@@ -472,36 +472,63 @@ class Camera {
 
   /** Draw players */
 
-  drawPlayers(player, players, angle, zBuffer) {
+  drawObjects(player, players, enemies, angle, zBuffer) {
     let otherPlayer;
+    let enemy;
 
     // Calculate other players' distances from the player
     for (let plI = 0; plI < players.length; plI++) {
       otherPlayer = players[plI];
       players[plI].dist = Math.sqrt(Math.pow((player.pos.x - otherPlayer.pos.x), 2) + Math.pow((player.pos.y - otherPlayer.pos.y), 2));
     }
-
     // Sort the other players to descending order 
     // according to distance from the player
     players.sort(function (a, b) {
       return b.dist - a.dist
     });
 
+    // Calculate enemies' distances from the player
+    for (let eI = 0; eI < enemies.length; eI++) {
+      enemy = enemies[eI];
+      enemies[eI].dist = Math.sqrt(Math.pow((player.pos.x - enemy.pos.x), 2) + Math.pow((player.pos.y - enemy.pos.y), 2));
+    }
+    // Sort the enemies to descending order 
+    // according to distance from the player
+    enemies.sort(function (a, b) {
+      return b.dist - a.dist
+    });
+
+
     let rowIndex;
+    let enemyIndex = 0;
     let otherPlayerImg;
     for (let plI = 0; plI < players.length; plI++) {
       otherPlayer = players[plI];
-      if (otherPlayer.number !== player.number) {
-        rowIndex = ANIMATION.getSpriteRowIndex(player.pos, otherPlayer.pos);
-        otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + otherPlayer.animation.frameIndex];
-        this.drawSprite(player, otherPlayer, angle, otherPlayerImg, zBuffer);
-        this.drawPlayerName(player, otherPlayer, angle);
+      enemy = enemies[enemyIndex];
+      if (enemy && enemy.dist < otherPlayer.dist) {
+        rowIndex = ANIMATION.getSpriteRowIndex(player.pos, enemy.pos);
+        otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + enemy.animation.frameIndex];
+        this.drawSprite(player, enemy, angle, otherPlayerImg, zBuffer);
+        enemyIndex++;
+      }
+      else {
+        if (otherPlayer.number !== player.number) {
+          rowIndex = ANIMATION.getSpriteRowIndex(player.pos, otherPlayer.pos);
+          otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + otherPlayer.animation.frameIndex];
+          this.drawSprite(player, otherPlayer, angle, otherPlayerImg, zBuffer);
+          this.drawPlayerName(player, otherPlayer, angle);
+        }
       }
     }
-  }
 
-  drawPlayerName(player, players, angle) {
-
+    if (enemyIndex <= enemies.length-1) {
+      for (let eI = enemyIndex;eI < enemies.length;eI++) {
+        enemy = enemies[eI];
+        rowIndex = ANIMATION.getSpriteRowIndex(player.pos, enemy.pos);
+        otherPlayerImg = this.otherPlayerImageSet[rowIndex * 5 + enemy.animation.frameIndex];
+        this.drawSprite(player, enemy, angle, otherPlayerImg, zBuffer);
+      }
+    }
   }
 
   /** Draw sprites */

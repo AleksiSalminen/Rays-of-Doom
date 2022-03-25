@@ -43,6 +43,16 @@
             }
         ]
     },
+    "enemies": [
+        {
+            "name": "Bot",
+            "maxHP": 30,
+            "hp": 30,
+            "walkSpd": 0.03,
+            "height": 0.7,
+            "width": 0.4
+        }
+    ],
     "levels": [
         "test-level",
         "test-level2"

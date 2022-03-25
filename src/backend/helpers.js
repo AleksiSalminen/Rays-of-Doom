@@ -3,6 +3,7 @@ const fs = require("fs");
 const config = require("../../def/config/config.json");
 
 const Player = require("./objects/characters/player");
+const Enemy = require("./objects/characters/enemy");
 const Firearm = require("./objects/weapons/firearm");
 const MeleeWeapon = require("./objects/weapons/melee_weapon");
 const Level = require("./objects/world/level.js");
@@ -89,6 +90,22 @@ module.exports = {
     );
 
     return player;
+  },
+
+  createEnemies(config) {
+    let enemies = [];
+
+    let enemy;
+    let enemyCount = 3;
+    for (let i = 0;i < enemyCount;i++) {
+      enemy = new Enemy(
+        config[0].name, config[0].maxHP, config[0].hp, config[0].walkSpd, 
+        {x:2,y:2+i}, config[0].height, config[0].width
+      );
+      enemies.push(enemy);
+    }
+
+    return enemies;
   },
 
   checkIfBulletHitPlayer(oldX, oldY, bullet, player, players) {

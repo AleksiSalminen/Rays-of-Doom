@@ -31,7 +31,7 @@ function updateGame(playerNumber, gameState) {
     weaponChangeTimer++;
   }
   player = findPlayer(playerNumber, gameState.players);
-  GRAPHICS.updateGraphics(player, gameState.players, gameState.level);
+  GRAPHICS.updateGraphics(player, gameState.players, gameState.enemies, gameState.level);
 }
 
 function initGame(gameState) {

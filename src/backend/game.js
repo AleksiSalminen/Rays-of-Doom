@@ -96,6 +96,8 @@ module.exports = {
       stateCurrent.players[i] = helpers.createPlayer(config, stateCurrent.players[i], level);
     }
 
+    state[roomName].enemies = helpers.createEnemies(config.enemies);
+
     state[roomName].level = level;
     state[roomName].ui = config.ui;
     state[roomName].status = "Playing";

@@ -40,12 +40,12 @@ function initGraphics(settings) {
   initialized = true;
 }
 
-function updateGraphics(player, players, level) {
+function updateGraphics(player, players, enemies, level) {
   if (initialized && gameCamera) {
     // Empty the canvas
     gameDisplay.getContext('2d').clearRect(0, 0, gameDisplay.width, gameDisplay.height);
     // Use the camera to render game view
-    gameCamera.render(player, players, level);
+    gameCamera.render(player, players, enemies, level);
   }
 }
 
