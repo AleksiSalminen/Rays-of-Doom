@@ -368,6 +368,7 @@ function gameLoop(roomName) {
       bullet.y += yDiff;
 
       hitPlayer = helpers.checkIfBulletHitPlayer(oldX, oldY, bullet, player, state[roomName].players);
+      hitWall = helpers.checkIfBulletHitWall(bullet, state[roomName].level.walls, state[roomName].level.dimensions);
       if (hitPlayer) {
         player.bullets.splice(bulletI, 1);
         hitPlayer.hp -= bullet.damage;
@@ -375,6 +376,10 @@ function gameLoop(roomName) {
           hitPlayer.hp = 0;
         }
         console.log("OUCHIE! Hit player: " + hitPlayer.name);
+      }
+      else if (hitWall) {
+        player.bullets.splice(bulletI, 1);
+        console.log("Hit wall: " + hitWall);
       }
     }
   }

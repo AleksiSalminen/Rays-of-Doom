@@ -84,6 +84,19 @@ module.exports = {
     }
 
     return hitPlayer;
+  },
+
+  checkIfBulletHitWall(bullet, walls, dimensions) {
+    let hitWall;
+
+    let x = Math.floor(bullet.x);
+    let y = Math.floor(bullet.y);
+    let width = dimensions.width;
+    if (walls[width * y + x] !== 0) {
+      hitWall = width * y + x;
+    }
+
+    return hitWall;
   }
 
 };
