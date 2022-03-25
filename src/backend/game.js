@@ -432,13 +432,24 @@ function gameLoop(roomName) {
         console.log("Hit wall: " + hitWall);
       }
     }
+  }
 
-    // Update enemies
-    let enemy;
-    for (let enemyI = 0; enemyI < enemies.length; enemyI++) {
-      enemy = enemies[enemyI];
-      enemy.update(player, state[roomName].level);
+  // Update enemies
+  let enemy;
+  for (let enemyI = 0; enemyI < state[roomName].enemies.length; enemyI++) {
+    enemy = state[roomName].enemies[enemyI];
+    let closestPlayer;
+    for (let plI = 0;plI < state[roomName].players.length;plI++) {
+      let player = state[roomName].players[plI];
+      let xDiff = Math.abs(enemy.pos.x - player.pos.x);
+      let yDiff = Math.abs(enemy.pos.y - player.pos.y);
+      let dist = Math.hypot(xDiff, yDiff);
+      if (!closestPlayer || closestPlayer.dist > dist) {
+        player.dist = dist;
+        closestPlayer = player;
+      }
     }
+    enemy.update(closestPlayer, state[roomName].level);
   }
 }
 

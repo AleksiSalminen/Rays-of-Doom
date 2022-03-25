@@ -72,14 +72,16 @@ class Enemy extends Character {
     }
 
     update(player, level) {
-        if (this.pathUpdateTimer === this.pathUpdateDelay) {
-            this.route = getRoute(player, this, level);
-            this.pathUpdateTimer = 0;
+        if (player && level) {
+            if (this.pathUpdateTimer === this.pathUpdateDelay) {
+                this.route = getRoute(player, this, level);
+                this.pathUpdateTimer = 0;
+            }
+            else {
+                this.pathUpdateTimer++;
+            }
+            this.move(level);
         }
-        else {
-            this.pathUpdateTimer++;
-        }
-        this.move(level);
     }
 
     move(level) {
