@@ -407,6 +407,14 @@ function gameLoop(roomName) {
         console.log("Hit wall: " + hitWall);
       }
     }
+
+    // Update enemies
+    let enemies = state[roomName].enemies;
+    let enemy;
+    for (let enemyI = 0; enemyI < enemies.length; enemyI++) {
+      enemy = enemies[enemyI];
+      enemy.update(player, state[roomName].level);
+    }
   }
 }
 
