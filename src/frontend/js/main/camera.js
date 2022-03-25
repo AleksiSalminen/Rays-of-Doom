@@ -18,13 +18,13 @@ class Camera {
 
     if (window.innerHeight < window.innerWidth) {
       this.width = canvas.width = window.innerHeight;
-      this.height = canvas.height = window.innerHeight-window.innerHeight/20;
+      this.height = canvas.height = window.innerHeight - window.innerHeight / 20;
     }
     else {
       this.width = canvas.width = window.innerWidth;
-      this.height = canvas.height = window.innerWidth-window.innerWidth/20;
+      this.height = canvas.height = window.innerWidth - window.innerWidth / 20;
     }
-    
+
     this.resolution = resolution;
     this.spacing = this.width / resolution;
     this.focalLength = focalLength || 0.8;
@@ -48,29 +48,29 @@ class Camera {
     let opHeight = animImgs.height;
     this.otherPlayerImageSet = [
       /** Front facing images */
-      new IMG_PROC.Bitmap(opPath +  animImgs.opf1, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opf2, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opf3, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opf4, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opf5, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opf1, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opf2, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opf3, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opf4, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opf5, opWidth, opHeight),
       /** Back facing images */
-      new IMG_PROC.Bitmap(opPath +  animImgs.opb1, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opb2, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opb3, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opb4, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opb5, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opb1, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opb2, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opb3, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opb4, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opb5, opWidth, opHeight),
       /** Left facing images */
-      new IMG_PROC.Bitmap(opPath +  animImgs.opl1, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opl2, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opl3, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opl4, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opl5, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opl1, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opl2, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opl3, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opl4, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opl5, opWidth, opHeight),
       /** Right facing images */
-      new IMG_PROC.Bitmap(opPath +  animImgs.opr1, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opr2, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opr3, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opr4, opWidth, opHeight),
-      new IMG_PROC.Bitmap(opPath +  animImgs.opr5, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opr1, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opr2, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opr3, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opr4, opWidth, opHeight),
+      new IMG_PROC.Bitmap(opPath + animImgs.opr5, opWidth, opHeight),
       /** Front-left facing images */
       new IMG_PROC.Bitmap(opPath + animImgs.opfl1, opWidth, opHeight),
       new IMG_PROC.Bitmap(opPath + animImgs.opfl2, opWidth, opHeight),
@@ -158,10 +158,14 @@ class Camera {
 
     ctx.font = "11px Arial";
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("FPS: "+fps + " / 60" , 20, 13);
-    ctx.fillText("Level: "+levelName, 120, 13);
-    ctx.fillText("HP: "+player.hp, this.width-200, 13);
-    ctx.fillText("Ammo: "+player.currentWeapon.clipAmmo+" / "+player.currentWeapon.ammo, this.width-140, 13);
+    ctx.fillText("FPS: " + fps + " / 60", 20, 13);
+    ctx.fillText("Level: " + levelName, 120, 13);
+    ctx.fillText("HP: " + player.hp, this.width - 230, 13);
+    ctx.fillText(player.currentWeapon.name, this.width - 180, 13);
+
+    if (player.currentWeapon.type === "Firearm") {
+      ctx.fillText("Ammo: " + player.currentWeapon.clipAmmo + " / " + player.currentWeapon.ammo, this.width - 100, 13);
+    }
   }
 
   /** Draw items */
@@ -169,72 +173,86 @@ class Camera {
   drawItemBelt(currentWeapon, weapons) {
     let ctx = this.ctx;
 
-    let items = 4;
+    let items = weapons.length;
     let beltHeight = 50;
     let itemMargin = 5;
 
     // Draw background
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.fillRect(
-      this.width/2 - (items*beltHeight)/2 - itemMargin/2, 
-      this.height-beltHeight, 
-      items*(beltHeight) + itemMargin, 
+      this.width / 2 - (items * beltHeight) / 2 - itemMargin / 2,
+      this.height - beltHeight,
+      items * (beltHeight) + itemMargin,
       beltHeight
     );
 
+    // Draw reload message
+    if (currentWeapon.reloadCoolDownTimer !== currentWeapon.reloadCoolDown) {
+      ctx.fillStyle = "rgba(255, 255, 255, 1)";
+      ctx.fillText("RELOADING", this.width / 2 - 30, this.height - beltHeight - 10);
+    }
+
     // Draw items
-    for (let i = 0;i < items;i++) {
-      // Draw item frames
-      let startX = this.width/2 - items/2*(beltHeight) + itemMargin/2 + i*(beltHeight);
-      let startY = this.height-beltHeight+itemMargin;
-      ctx.fillStyle = "rgb(30, 30, 30)";
-      ctx.fillRect(
-        startX, 
-        startY, 
-        beltHeight-itemMargin, 
-        beltHeight-2*itemMargin
-      );
+    for (let i = 0; i < items; i++) {
+      let weapon = weapons[i];
 
-      
-      // Draw cycles
-      ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-      ctx.beginPath();
-      // Go to frame's center
-      ctx.moveTo(
-        startX + beltHeight/2 - itemMargin/2,
-        startY + beltHeight/2 - itemMargin
-      );
+      if (weapon) {
+        // Draw item frames
+        let startX = this.width / 2 - items / 2 * (beltHeight) + itemMargin / 2 + i * (beltHeight);
+        let startY = this.height - beltHeight + itemMargin;
+        if (weapon.name === currentWeapon.name) {
+          ctx.fillStyle = "rgb(30, 30, 50)";
+        }
+        else {
+          ctx.fillStyle = "rgb(30, 30, 30)";
+        }
+        ctx.fillRect(
+          startX,
+          startY,
+          beltHeight - itemMargin,
+          beltHeight - 2 * itemMargin
+        );
 
-      let percent = 0;
-      if (currentWeapon.reloadCoolDownTimer !== currentWeapon.reloadCoolDown) {
-        percent = currentWeapon.reloadCoolDownTimer / currentWeapon.reloadCoolDown;
+        // Draw cycles
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.beginPath();
+        // Go to frame's center
+        ctx.moveTo(
+          startX + beltHeight / 2 - itemMargin / 2,
+          startY + beltHeight / 2 - itemMargin
+        );
+
+        let percent = 0;
+        if (weapon.reloadCoolDownTimer && weapon.reloadCoolDownTimer !== weapon.reloadCoolDown) {
+          percent = weapon.reloadCoolDownTimer / weapon.reloadCoolDown;
+        }
+        else {
+          percent = weapon.cooldownTimer / weapon.cooldown;
+        }
+        if (percent === 1) {
+          percent = 0;
+        }
+        let radius = beltHeight / 2 - itemMargin;
+        let angleStart = Math.PI * 3 / 2;
+        let angleEnd = Math.PI * 2 * percent;
+
+        // Draw an arc
+        // (centerX, centerY, radius, angleStart, angleEnd)
+        ctx.arc(
+          startX + beltHeight / 2 - itemMargin / 2,
+          startY + beltHeight / 2 - itemMargin,
+          radius, angleStart, angleStart + angleEnd
+        );
+
+        // Draw a line to close the shape
+        ctx.lineTo(
+          startX + beltHeight / 2 - itemMargin / 2,
+          startY + beltHeight / 2 - itemMargin
+        );
+
+        // Fill the shape
+        ctx.fill();
       }
-      else {
-        percent = currentWeapon.cooldownTimer / currentWeapon.cooldown;
-      }
-      if (percent === 1) {
-        percent = 0;
-      }
-      let radius = beltHeight/2 - itemMargin;
-      let angleStart = Math.PI*3/2;
-      let angleEnd = Math.PI*2 * percent;
-
-      // Draw an arc
-      // (centerX, centerY, radius, angleStart, angleEnd)
-      ctx.arc(
-        startX + beltHeight/2 - itemMargin/2,
-        startY + beltHeight/2 - itemMargin,
-        radius, angleStart, angleStart + angleEnd
-      );
-
-      // Draw a line to close the shape
-      ctx.lineTo(
-        startX + beltHeight/2 - itemMargin/2,
-        startY + beltHeight/2 - itemMargin
-      );
-
-      // Fill the shape
-      ctx.fill();
     }
   }
 
@@ -248,23 +266,23 @@ class Camera {
     ctx.lineWidth = 1;
 
     ctx.beginPath();
-    ctx.moveTo(this.width/2-distance, this.height/2-distance);
-    ctx.lineTo(this.width/2-distance-length, this.height/2-distance-length);
+    ctx.moveTo(this.width / 2 - distance, this.height / 2 - distance);
+    ctx.lineTo(this.width / 2 - distance - length, this.height / 2 - distance - length);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(this.width/2+distance, this.height/2-distance);
-    ctx.lineTo(this.width/2+distance+length, this.height/2-distance-length);
+    ctx.moveTo(this.width / 2 + distance, this.height / 2 - distance);
+    ctx.lineTo(this.width / 2 + distance + length, this.height / 2 - distance - length);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(this.width/2-distance, this.height/2+distance);
-    ctx.lineTo(this.width/2-distance-length, this.height/2+distance+length);
+    ctx.moveTo(this.width / 2 - distance, this.height / 2 + distance);
+    ctx.lineTo(this.width / 2 - distance - length, this.height / 2 + distance + length);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(this.width/2+distance, this.height/2+distance);
-    ctx.lineTo(this.width/2+distance+length, this.height/2+distance+length);
+    ctx.moveTo(this.width / 2 + distance, this.height / 2 + distance);
+    ctx.lineTo(this.width / 2 + distance + length, this.height / 2 + distance + length);
     ctx.stroke();
   }
 
@@ -276,7 +294,7 @@ class Camera {
     ctx.fillRect(0, 0, this.width, this.height);
     ctx.font = "28px Arial";
     ctx.fillStyle = "#FFFFFF";
-    ctx.fillText("YOU ARE DEAD" , this.width/2-100, this.height/2);
+    ctx.fillText("YOU ARE DEAD", this.width / 2 - 100, this.height / 2);
   }
 
   /** Draw maps */
@@ -305,7 +323,7 @@ class Camera {
       for (let j = 0; j < level.dimensions.height; j++) {
         let wall = level.walls[j * level.dimensions.width + i];
         if (wall !== 0) {
-          ctx.fillRect(startX + i * stepX, startY + j * stepY, stepX+1, stepY+1);
+          ctx.fillRect(startX + i * stepX, startY + j * stepY, stepX + 1, stepY + 1);
         }
       }
     }
