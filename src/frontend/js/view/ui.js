@@ -68,6 +68,7 @@ class UI {
         else {
             fontSize = window.innerWidth * settings.fontSize;
         }
+        ctx.textAlign = "start";
         ctx.font = fontSize + "px " + settings.font;
         ctx.fillStyle = settings.fontColor;
         let fontX;
