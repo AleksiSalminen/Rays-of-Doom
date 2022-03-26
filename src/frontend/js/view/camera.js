@@ -16,21 +16,12 @@ class Camera {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
 
-    if (window.innerHeight < window.innerWidth) {
-      this.width = canvas.width = window.innerHeight;
-      this.height = canvas.height = window.innerHeight - window.innerHeight / 20;
-    }
-    else {
-      this.width = canvas.width = window.innerWidth;
-      this.height = canvas.height = window.innerWidth - window.innerWidth / 20;
-    }
-
     this.resolution = resolution;
-    this.spacing = this.width / resolution;
-    this.focalLength = focalLength || 0.8;
+    this.focalLength = focalLength;
     this.range = range;
     this.lightRange = lightRange;
-    this.scale = (this.width + this.height) / scaleFactor;
+    this.scaleFactor = scaleFactor;
+    this.updateSize();
 
     this.skyboxImagePath = imagePaths.skyboxImagePath;
     this.wallImagePath = imagePaths.wallImagePath;
@@ -102,8 +93,18 @@ class Camera {
    * 
    */
 
-
-  /** The main rendering method */
+  updateSize() {
+    if (window.innerHeight < window.innerWidth) {
+      this.width = this.canvas.width = window.innerHeight;
+      this.height = this.canvas.height = window.innerHeight - window.innerHeight / 20;
+    }
+    else {
+      this.width = this.canvas.width = window.innerWidth;
+      this.height = this.canvas.height = window.innerWidth - window.innerWidth / 20;
+    }
+    this.spacing = this.width / this.resolution;
+    this.scale = (this.width + this.height) / this.scaleFactor;
+  }
 
   render(player, players, enemies, level) {
     this.drawSky(player.pos.rotation, level);

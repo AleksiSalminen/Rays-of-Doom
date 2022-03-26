@@ -73,13 +73,8 @@ function initLobby(player, players, gameCode) {
 
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
-  if (window.innerHeight < window.innerWidth) {
-    gameCamera.width = gameDisplay.width = window.innerHeight;
-    gameCamera.height = gameDisplay.height = window.innerHeight-window.innerHeight/20;
-  }
-  else {
-    gameCamera.width = gameDisplay.width = window.innerWidth;
-    gameCamera.height = gameDisplay.height = window.innerWidth-window.innerWidth/20;
+  if (gameDisplay && ui && gameCamera) {
+    gameCamera.updateSize();
   }
 }
 
