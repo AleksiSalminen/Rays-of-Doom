@@ -59,21 +59,37 @@ class UI {
         ctx.fillStyle = settings.backgroundColor;
         ctx.fillRect(0, 0, this.width, this.height*settings.heightPercent);
 
-        ctx.font = settings.font;
+        let fontHeightPercent = 1.5;
+        let fontY = (this.height * settings.heightPercent) / fontHeightPercent;
+        let fontSize;
+        if (window.innerWidth > window.innerHeight) {
+            fontSize = window.innerHeight * settings.fontSize;
+        }
+        else {
+            fontSize = window.innerWidth * settings.fontSize;
+        }
+        ctx.font = fontSize + "px " + settings.font;
         ctx.fillStyle = settings.fontColor;
+        let fontX;
         if (settings.showFPS) {
-            ctx.fillText("FPS: " + fps + " / 60", 20, 13);
+            fontX = this.width * 0.04;
+            ctx.fillText("FPS: " + fps + " / 60", fontX, fontY);
         }
         if (settings.showLevel) {
-            ctx.fillText("Level: " + levelName, 120, 13);
+            fontX = this.width * 0.22;
+            ctx.fillText("Level: " + levelName, fontX, fontY);
         }
         if (settings.showHP) {
-            ctx.fillText("HP: " + player.hp, this.width - 230, 13);
+            fontX = this.width/2 + this.width * 0.1;
+            ctx.fillText("HP: " + player.hp, fontX, fontY);
         }
         if (settings.showWeapon) {
-            ctx.fillText(player.currentWeapon.name, this.width - 180, 13);
+            fontX = this.width/2 + this.width * 0.2;
+            ctx.fillText(player.currentWeapon.name, fontX, fontY);
             if (player.currentWeapon.type === "Firearm") {
-                ctx.fillText("Ammo: " + player.currentWeapon.clipAmmo + " / " + player.currentWeapon.ammo, this.width - 100, 13);
+                let ammoText = "Ammo: " + player.currentWeapon.clipAmmo + " / " + player.currentWeapon.ammo;
+                fontX = this.width/2 + this.width * 0.33;
+                ctx.fillText(ammoText, fontX, fontY);
             }
         }
     }

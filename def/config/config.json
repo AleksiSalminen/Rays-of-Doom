@@ -130,7 +130,8 @@
             "showLevel": true,
             "showHP": true,
             "showWeapon": true,
-            "font": "11px Arial",
+            "font": "Arial",
+            "fontSize": 0.02,
             "fontColor": "#FFFFFF",
             "heightPercent": 0.035,
             "backgroundColor": "rgba(0, 0, 0, 0.5)"
