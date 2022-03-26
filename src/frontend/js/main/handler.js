@@ -1,6 +1,6 @@
 
-import { GRAPHICS } from './graphics.js'
-import { KEYBOARD } from './keyboard.js';
+import { GRAPHICS } from '../view/graphics.js'
+import { KEYBOARD } from '../io/keyboard.js';
 
 const serverAddress = "http://localhost:3000";
 

@@ -131,6 +131,15 @@
                     "max": 150
                 }
             }
+        },
+        "metrics": {
+            "initialValues": {
+                "show": true,
+                "showFPS": true,
+                "showLevel": true,
+                "showHP": true,
+                "showWeapon": true
+            }
         }
     }
 }

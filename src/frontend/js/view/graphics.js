@@ -45,7 +45,7 @@ function updateGraphics(player, players, enemies, level) {
     // Empty the canvas
     gameDisplay.getContext('2d').clearRect(0, 0, gameDisplay.width, gameDisplay.height);
     // Use the camera to render game view
-    gameCamera.render(player, players, enemies, level);
+    gameCamera.render(player, players, enemies, level, uiSettings);
   }
 }
 

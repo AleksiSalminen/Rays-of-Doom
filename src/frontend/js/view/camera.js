@@ -1,6 +1,6 @@
 
 import { RAYCASTING } from './raycasting.js';
-import { IMG_PROC } from './img_process.js';
+import { IMG_PROC } from '../io/img_process.js';
 import { ANIMATION } from './animation.js';
 
 
@@ -108,7 +108,7 @@ class Camera {
 
   /** The main rendering method */
 
-  render(player, players, enemies, level) {
+  render(player, players, enemies, level, uiSettings) {
     this.drawSky(player.pos.rotation, level);
     this.drawColumns(player, players, enemies, level);
     this.drawWeapon(player.weaponImg);
