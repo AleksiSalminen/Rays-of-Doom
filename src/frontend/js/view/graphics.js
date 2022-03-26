@@ -1,6 +1,6 @@
 
 import { GAMECAMERA } from './camera.js';
-import { MAPS } from './maps.js';
+import { UI } from './ui.js';
 
 let titleScreen = document.getElementById("titleScreen");
 let lobbyScreen = document.getElementById("gameLobby");
@@ -9,7 +9,7 @@ let gameDisplay = document.getElementById('gameDisplay');
 
 let initialized = false;
 let gameCamera;
-let uiSettings;
+let ui;
 
 
 function initGraphics(settings) {
@@ -18,10 +18,8 @@ function initGraphics(settings) {
   lobbyScreen.style.display = "none";
   gameView.style.display = "block";
 
-  uiSettings = settings;
-
-  /** Create a new minimap */
-  let minimap = new MAPS.Minimap(settings.minimap);
+  /** Create a new UI instance */
+  ui = new UI(gameDisplay, settings.images.paths.uiImagePath, settings);
 
   /** Create a new Camera instance */
   const rays = settings.raycaster.initialValues;
@@ -33,19 +31,20 @@ function initGraphics(settings) {
     rays.lightRange,
     rays.scaleFactor,
     settings.images.paths,
-    settings.images.animation,
-    minimap
+    settings.images.animation
   );
 
   initialized = true;
 }
 
 function updateGraphics(player, players, enemies, level) {
-  if (initialized && gameCamera) {
+  if (initialized && gameCamera && ui) {
     // Empty the canvas
     gameDisplay.getContext('2d').clearRect(0, 0, gameDisplay.width, gameDisplay.height);
     // Use the camera to render game view
-    gameCamera.render(player, players, enemies, level, uiSettings);
+    gameCamera.render(player, players, enemies, level);
+    // Render the UI
+    ui.render(player, players, enemies, level);
   }
 }
 
