@@ -133,13 +133,15 @@
             }
         },
         "metrics": {
-            "initialValues": {
-                "show": true,
-                "showFPS": true,
-                "showLevel": true,
-                "showHP": true,
-                "showWeapon": true
-            }
+            "show": true,
+            "showFPS": true,
+            "showLevel": true,
+            "showHP": true,
+            "showWeapon": true,
+            "font": "11px Arial",
+            "fontColor": "#FFFFFF",
+            "heightPercent": 0.035,
+            "backgroundColor": "rgba(0, 0, 0, 0.5)"
         }
     }
 }

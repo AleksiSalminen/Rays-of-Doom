@@ -39,7 +39,9 @@ class UI {
     }
 
     render(player, players, enemies, level) {
-        this.drawMetrics(level.name, player);
+        if (this.settings.metrics.show) {
+            this.drawMetrics(level.name, player);
+        }
         if (this.minimap.show) {
             this.drawMiniMap(player, players, enemies, level);
         }
@@ -49,19 +51,27 @@ class UI {
 
     drawMetrics(levelName, player) {
         let ctx = this.ctx;
+        let settings = this.settings.metrics;
 
-        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-        ctx.fillRect(0, 0, this.width, 20);
+        ctx.fillStyle = settings.backgroundColor;
+        ctx.fillRect(0, 0, this.width, this.height*settings.heightPercent);
 
-        ctx.font = "11px Arial";
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText("FPS: " + fps + " / 60", 20, 13);
-        ctx.fillText("Level: " + levelName, 120, 13);
-        ctx.fillText("HP: " + player.hp, this.width - 230, 13);
-        ctx.fillText(player.currentWeapon.name, this.width - 180, 13);
-
-        if (player.currentWeapon.type === "Firearm") {
-            ctx.fillText("Ammo: " + player.currentWeapon.clipAmmo + " / " + player.currentWeapon.ammo, this.width - 100, 13);
+        ctx.font = settings.font;
+        ctx.fillStyle = settings.fontColor;
+        if (settings.showFPS) {
+            ctx.fillText("FPS: " + fps + " / 60", 20, 13);
+        }
+        if (settings.showLevel) {
+            ctx.fillText("Level: " + levelName, 120, 13);
+        }
+        if (settings.showHP) {
+            ctx.fillText("HP: " + player.hp, this.width - 230, 13);
+        }
+        if (settings.showWeapon) {
+            ctx.fillText(player.currentWeapon.name, this.width - 180, 13);
+            if (player.currentWeapon.type === "Firearm") {
+                ctx.fillText("Ammo: " + player.currentWeapon.clipAmmo + " / " + player.currentWeapon.ammo, this.width - 100, 13);
+            }
         }
     }
 
