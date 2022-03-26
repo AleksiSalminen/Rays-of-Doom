@@ -8,6 +8,18 @@ let gameCode;
 let playerNumber;
 let player;
 
+let moveForwardKey  = 87; // W key
+let moveBackwardKey = 83; // S key
+let moveLeftKey     = 65; // A key
+let moveRightKey    = 68; // D key
+let rotateLeftKey   = 37; // Left arrow key
+let rotateRightKey  = 39; // Right arrow key
+let shootKey        = 38; // Up arrow key
+let reloadKey       = 82; // R key
+let weaponUpKey     = 81; // Q key
+let weaponDownKey   = 69; // E key
+let fullscreenKey   = 80; // P key
+
 let weaponChangeDelay = 5;
 let weaponChangeTimer = weaponChangeDelay;
 
@@ -87,43 +99,43 @@ function sendKeysPressed() {
   for (let i = 0; i < keysPressed.length; i++) {
     let key = keysPressed[i];
 
-    if (key === 87) { // W key
+    if (key === moveForwardKey) {
       socket.emit('move', { dir: "Forward", number: playerNumber });
     }
-    else if (key === 83) { // S key
+    else if (key === moveBackwardKey) {
       socket.emit('move', { dir: "Back", number: playerNumber });
     }
-    else if (key === 65) { // A key
+    else if (key === moveLeftKey) {
       socket.emit('move', { dir: "Left", number: playerNumber });
     }
-    else if (key === 68) { // D key
+    else if (key === moveRightKey) {
       socket.emit('move', { dir: "Right", number: playerNumber });
     }
-    else if (key === 37) { // Left arrow key
+    else if (key === rotateLeftKey) {
       socket.emit('move', { dir: "RotLeft", number: playerNumber });
     }
-    else if (key === 39) { // Right arrow key
+    else if (key === rotateRightKey) {
       socket.emit('move', { dir: "RotRight", number: playerNumber });
     }
-    else if (key === 38) { // Up arrow key
+    else if (key === shootKey) {
       socket.emit('attack', { number: playerNumber });
     }
-    else if (key === 82) { // R key
+    else if (key === reloadKey) {
       socket.emit('reload', { number: playerNumber });
     }
-    else if (key === 81) { // Q key
+    else if (key === weaponUpKey) {
       if (weaponChangeTimer === weaponChangeDelay) {
         socket.emit('changeWeapon', { number: playerNumber, direction: "up" });
         weaponChangeTimer = 0;
       }
     }
-    else if (key === 69) { // E key
+    else if (key === weaponDownKey) {
       if (weaponChangeTimer === weaponChangeDelay) {
         socket.emit('changeWeapon', { number: playerNumber, direction: "down" });
         weaponChangeTimer = 0;
       }
     }
-    else if (key === 80) { // P key
+    else if (key === fullscreenKey) {
       GRAPHICS.setFullScreen();
     }
   }
