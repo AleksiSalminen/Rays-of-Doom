@@ -24,8 +24,14 @@ class Minimap {
     }
 
     updateSize() {
-        this.width = window.innerWidth * this.widthPercent;
-        this.height = this.width;
+        if (window.innerWidth > window.innerHeight) {
+            this.height = window.innerHeight * this.heightPercent;
+            this.width = this.height;
+        }
+        else {
+            this.width = window.innerWidth * this.widthPercent;
+            this.height = this.width;
+        }
     }
 
     getCoordinates(width, height) {
