@@ -103,8 +103,8 @@
             "initialValues": {
                 "show": true,
                 "position": "top",
-                "width": 80,
-                "height": 80,
+                "widthPercent": 0.11,
+                "heightPercent": 0.12,
                 "wallColor": "#808080",
                 "backgroundColor": "#000000",
                 "playerColor": "#008000",
@@ -121,15 +121,7 @@
                     "bottom-left",
                     "bottom",
                     "bottom-right"
-                ],
-                "width": {
-                    "min": 20,
-                    "max": 150
-                },
-                "height": {
-                    "min": 20,
-                    "max": 150
-                }
+                ]
             }
         },
         "metrics": {

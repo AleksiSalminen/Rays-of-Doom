@@ -1,16 +1,19 @@
 
 class Minimap {
+
     constructor(settings) {
         this.show = settings.initialValues.show;
 
-        this.width = settings.initialValues.width;
-        this.height = settings.initialValues.height;
+        this.widthPercent = settings.initialValues.widthPercent;
+        this.heightPercent = settings.initialValues.heightPercent;
+        this.width = window.innerWidth * this.widthPercent;
+        this.height = this.width;
 
-        this.TOP_LEFT =     settings.valueRanges.position[0];
-        this.TOP =          settings.valueRanges.position[1];
-        this.TOP_RIGHT =    settings.valueRanges.position[2];
-        this.BOTTOM_LEFT =  settings.valueRanges.position[3];
-        this.BOTTOM =       settings.valueRanges.position[4];
+        this.TOP_LEFT = settings.valueRanges.position[0];
+        this.TOP = settings.valueRanges.position[1];
+        this.TOP_RIGHT = settings.valueRanges.position[2];
+        this.BOTTOM_LEFT = settings.valueRanges.position[3];
+        this.BOTTOM = settings.valueRanges.position[4];
         this.BOTTOM_RIGHT = settings.valueRanges.position[5];
         this.position = settings.initialValues.position;
 
@@ -20,7 +23,12 @@ class Minimap {
         this.playerColor = settings.initialValues.playerColor;
     }
 
-    getCoordinates (width, height) {
+    updateSize() {
+        this.width = window.innerWidth * this.widthPercent;
+        this.height = this.width;
+    }
+
+    getCoordinates(width, height) {
         let startX, startY;
 
         if (this.position === this.TOP_LEFT) {
@@ -28,7 +36,7 @@ class Minimap {
             startY = 0;
         }
         else if (this.position === this.TOP) {
-            startX = width/2 - this.width/2;
+            startX = width / 2 - this.width / 2;
             startY = 0;
         }
         else if (this.position === this.TOP_RIGHT) {
@@ -40,7 +48,7 @@ class Minimap {
             startY = height - this.height;
         }
         else if (this.position === this.BOTTOM) {
-            startX = width/2 - this.width/2;
+            startX = width / 2 - this.width / 2;
             startY = height - this.height;
         }
         else if (this.position === this.BOTTOM_RIGHT) {

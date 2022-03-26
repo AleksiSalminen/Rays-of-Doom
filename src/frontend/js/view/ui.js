@@ -36,6 +36,9 @@ class UI {
             this.width = this.canvas.width = window.innerWidth;
             this.height = this.canvas.height = window.innerWidth - window.innerWidth / 20;
         }
+        if (this.minimap) {
+            this.minimap.updateSize();
+        }
     }
 
     render(player, players, enemies, level) {
