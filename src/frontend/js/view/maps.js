@@ -6,8 +6,8 @@ class Minimap {
 
         this.widthPercent = settings.initialValues.widthPercent;
         this.heightPercent = settings.initialValues.heightPercent;
-        this.width = window.innerWidth * this.widthPercent;
-        this.height = this.width;
+        
+        this.updateSize();
 
         this.TOP_LEFT = settings.valueRanges.position[0];
         this.TOP = settings.valueRanges.position[1];
