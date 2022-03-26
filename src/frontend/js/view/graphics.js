@@ -11,6 +11,10 @@ let initialized = false;
 let gameCamera;
 let ui;
 
+let fullScreen = false;
+let fullScreenDelay = 30;
+let fullScreenTimer = 30;
+
 
 function initGraphics(settings) {
   /** Hide the main menu and game lobby, show the game canvas */
@@ -39,6 +43,10 @@ function initGraphics(settings) {
 
 function updateGraphics(player, players, enemies, level) {
   if (initialized && gameCamera && ui) {
+    if (fullScreenTimer < fullScreenDelay) {
+      fullScreenTimer++;
+    }
+
     // Empty the canvas
     gameDisplay.getContext('2d').clearRect(0, 0, gameDisplay.width, gameDisplay.height);
     // Use the camera to render game view
@@ -70,6 +78,24 @@ function initLobby(player, players, gameCode) {
   playersList.innerHTML = playersListString;
 }
 
+function setFullScreen() {
+  if (fullScreenTimer === fullScreenDelay) {
+    if (!fullScreen) {
+      gameView.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      gameView.mozRequestFullScreen();
+      gameView.msRequestFullscreen();
+      gameView.requestFullscreen(); // standard
+    }
+    else {
+      document.webkitExitFullscreen();
+      document.mozCancelFullScreen();
+      document.msExitFullscreen();
+      document.exitFullscreen();
+    }
+    fullScreen = !fullScreen;
+    fullScreenTimer = 0;
+  }
+}
 
 window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
@@ -83,7 +109,8 @@ function resizeCanvas() {
 const GRAPHICS = {
   initGraphics,
   updateGraphics,
-  initLobby
+  initLobby,
+  setFullScreen
 };
 
 export {

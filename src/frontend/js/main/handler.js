@@ -123,6 +123,9 @@ function sendKeysPressed() {
         weaponChangeTimer = 0;
       }
     }
+    else if (key === 80) { // P key
+      GRAPHICS.setFullScreen();
+    }
   }
 }
 
