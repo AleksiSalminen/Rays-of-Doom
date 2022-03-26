@@ -80,13 +80,14 @@ class UI {
 
     drawItemBelt(currentWeapon, weapons) {
         let ctx = this.ctx;
+        let settings = this.settings.itemBelt;
 
         let items = weapons.length;
-        let beltHeight = 50;
-        let itemMargin = 5;
+        let beltHeight = this.height * settings.beltHeightPercent;
+        let itemMargin = beltHeight * settings.itemMargin;
 
         // Draw background
-        ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        ctx.fillStyle = settings.backgroundColor;
         ctx.fillRect(
             this.width / 2 - (items * beltHeight) / 2 - itemMargin / 2,
             this.height - beltHeight,
@@ -96,8 +97,17 @@ class UI {
 
         // Draw reload message
         if (currentWeapon.reloadCoolDownTimer !== currentWeapon.reloadCoolDown) {
-            ctx.fillStyle = "rgba(255, 255, 255, 1)";
-            ctx.fillText("RELOADING", this.width / 2 - 30, this.height - beltHeight - 10);
+            let fontSize;
+            if (window.innerWidth > window.innerHeight) {
+                fontSize = window.innerHeight * settings.reloadMsgFontSize;
+            }
+            else {
+                fontSize = window.innerWidth * settings.reloadMsgFontSize;
+            }
+            ctx.font = fontSize + "px " + settings.reloadMsgFont;
+            ctx.fillStyle = settings.reloadMsgColor;
+            ctx.textAlign = "center";
+            ctx.fillText(settings.reloadMsgText, this.width / 2, this.height - beltHeight - window.innerWidth/100);
         }
 
         // Draw items
@@ -109,10 +119,10 @@ class UI {
                 let startX = this.width / 2 - items / 2 * (beltHeight) + itemMargin / 2 + i * (beltHeight);
                 let startY = this.height - beltHeight + itemMargin;
                 if (weapon.name === currentWeapon.name) {
-                    ctx.fillStyle = "rgb(30, 30, 50)";
+                    ctx.fillStyle = settings.currentWeaponColor;
                 }
                 else {
-                    ctx.fillStyle = "rgb(30, 30, 30)";
+                    ctx.fillStyle = settings.otherWeaponsColor;
                 }
                 ctx.fillRect(
                     startX,
@@ -122,7 +132,7 @@ class UI {
                 );
 
                 // Draw cycles
-                ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                ctx.fillStyle = settings.cycleColor;
                 ctx.beginPath();
                 // Go to frame's center
                 ctx.moveTo(

@@ -134,6 +134,18 @@
             "fontColor": "#FFFFFF",
             "heightPercent": 0.035,
             "backgroundColor": "rgba(0, 0, 0, 0.5)"
+        },
+        "itemBelt": {
+            "beltHeightPercent": 0.1,
+            "itemMargin": 0.1,
+            "backgroundColor": "rgba(0, 0, 0, 0.5)",
+            "cycleColor": "rgba(255, 255, 255, 0.5)",
+            "currentWeaponColor": "rgb(30, 30, 50)",
+            "otherWeaponsColor": "rgb(30, 30, 30)",
+            "reloadMsgColor": "rgba(255, 255, 255, 1)",
+            "reloadMsgText": "RELOADING",
+            "reloadMsgFont": "Arial",
+            "reloadMsgFontSize": 0.02
         }
     }
 }
