@@ -3,22 +3,39 @@ import { MAPS } from './maps.js';
 
 class UI {
 
+    /**
+     * 
+     * Constructors
+     * 
+     */
+
     constructor(canvas, uiImagePath, settings) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
 
-        if (window.innerHeight < window.innerWidth) {
-            this.width = canvas.width = window.innerHeight;
-            this.height = canvas.height = window.innerHeight - window.innerHeight / 20;
-        }
-        else {
-            this.width = canvas.width = window.innerWidth;
-            this.height = canvas.height = window.innerWidth - window.innerWidth / 20;
-        }
+        this.updateSize();
 
         this.minimap = new MAPS.Minimap(settings.minimap);
         this.uiImagePath = uiImagePath;
         this.settings = settings;
+    }
+
+
+    /**
+     * 
+     * Methods
+     * 
+     */
+
+    updateSize() {
+        if (window.innerHeight < window.innerWidth) {
+            this.width = this.canvas.width = window.innerHeight;
+            this.height = this.canvas.height = window.innerHeight - window.innerHeight / 20;
+        }
+        else {
+            this.width = this.canvas.width = window.innerWidth;
+            this.height = this.canvas.height = window.innerWidth - window.innerWidth / 20;
+        }
     }
 
     render(player, players, enemies, level) {

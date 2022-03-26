@@ -75,6 +75,7 @@ window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
   if (gameDisplay && ui && gameCamera) {
     gameCamera.updateSize();
+    ui.updateSize();
   }
 }
 
