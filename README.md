@@ -4,6 +4,7 @@ Doom and Wolfenstein inspired multiplayer online PvE FPS.
 Improved version of JS-RayCaster (https://github.com/AleksiSalminen/JS-Raycaster)
 
 ## Project Structure
+(Check the raw file for proper view)  
 
 (root)
   |
