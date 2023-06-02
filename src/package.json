@@ -1,7 +1,7 @@
 {
-  "name": "JS-Raycaster",
+  "name": "rays-of-doom",
   "version": "0.0.1",
-  "description": "JavaScript raycaster using Node.js",
+  "description": "Doom and Wolfenstein inspired multiplayer online PvE FPS",
   "main": "app.js",
   "dependencies": {
     "express": "^4.17.1",
